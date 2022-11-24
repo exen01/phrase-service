@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class SuccessResponse<T> implements Response{
+public class SuccessResponse<T> implements Response {
     private T data;
 }

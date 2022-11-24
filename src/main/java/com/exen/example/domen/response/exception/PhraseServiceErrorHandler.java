@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class PhraseServiceErrorHandler {
 
     @ExceptionHandler(CommonException.class)
-    public ResponseEntity<ErrorResponse> handleCommonException(CommonException exception){
+    public ResponseEntity<ErrorResponse> handleCommonException(CommonException exception) {
         log.error("Common error: {}", exception.toString());
         return new ResponseEntity<>(ErrorResponse.builder().error(Error.builder().code(exception.getCode()).message(exception.getMessage()).build()).build(), exception.getHttpStatus());
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleUnexpectedErrorException(Exception exception){
+    public ResponseEntity<ErrorResponse> handleUnexpectedErrorException(Exception exception) {
         exception.printStackTrace();
         log.error("Internal server error: {}", exception.toString());
         return new ResponseEntity<>(ErrorResponse.builder().error(Error.builder().code(Code.INTERNAL_SERVER_ERROR).message("Внутренняя ошибка сервера").build()).build(), HttpStatus.INTERNAL_SERVER_ERROR);
