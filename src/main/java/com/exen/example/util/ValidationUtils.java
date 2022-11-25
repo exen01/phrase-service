@@ -17,6 +17,12 @@ import java.util.Set;
 public class ValidationUtils {
     private final Validator validator;
 
+    /**
+     * Validate request
+     *
+     * @param req request
+     * @param <T> type of data
+     */
     public <T> void validationRequest(T req) {
         if (req != null) {
             Set<ConstraintViolation<T>> result = validator.validate(req);
