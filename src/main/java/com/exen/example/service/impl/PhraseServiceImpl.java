@@ -1,6 +1,8 @@
 package com.exen.example.service.impl;
 
 import com.exen.example.dao.Dao;
+import com.exen.example.domen.api.LoginReq;
+import com.exen.example.domen.api.LoginResp;
 import com.exen.example.domen.api.RegistrationReq;
 import com.exen.example.domen.api.RegistrationResp;
 import com.exen.example.domen.constant.Code;
@@ -26,11 +28,22 @@ public class PhraseServiceImpl implements PhraseService {
     private final ValidationUtils validationUtils;
     private final Dao dao;
 
+    /**
+     * Method for testing response
+     *
+     * @return response
+     */
     @Override
     public ResponseEntity<Response> test() {
         throw CommonException.builder().code(Code.TEST).message("test").httpStatus(HttpStatus.BAD_REQUEST).build();
     }
 
+    /**
+     * Registration new user
+     *
+     * @param req request
+     * @return response
+     */
     @Override
     public ResponseEntity<Response> registration(RegistrationReq req) {
         validationUtils.validationRequest(req);
@@ -43,6 +56,23 @@ public class PhraseServiceImpl implements PhraseService {
         String encryptPassword = DigestUtils.md5DigestAsHex(req.getPassword().getBytes());
         dao.insertNewUser(User.builder().nickname(req.getNickname()).encryptPassword(encryptPassword).accessToken(accessToken).build());
 
-        return new ResponseEntity<Response>(SuccessResponse.builder().data(RegistrationResp.builder().accessToken(accessToken).build()).build(), HttpStatus.OK);
+        return new ResponseEntity<>(SuccessResponse.builder().data(RegistrationResp.builder().accessToken(accessToken).build()).build(), HttpStatus.OK);
     }
+
+    /**
+     * Login user
+     *
+     * @param req request
+     * @return response
+     */
+    @Override
+    public ResponseEntity<Response> login(LoginReq req) {
+        validationUtils.validationRequest(req);
+
+        String encryptPassword = DigestUtils.md5DigestAsHex(req.getPassword().getBytes());
+        String accessToken = dao.getAccessToken(User.builder().nickname(req.getNickname()).encryptPassword(encryptPassword).build());
+        return new ResponseEntity<>(SuccessResponse.builder().data(LoginResp.builder().accessToken(accessToken).build()).build(), HttpStatus.OK);
+    }
+
+
 }

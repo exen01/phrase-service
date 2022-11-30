@@ -19,4 +19,12 @@ public interface Dao {
      * @param user user data object
      */
     void insertNewUser(User user);
+
+    /**
+     * Find access token of user
+     *
+     * @param user user
+     * @return access token
+     */
+    String getAccessToken(User user);
 }

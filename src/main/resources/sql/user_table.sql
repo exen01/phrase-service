@@ -8,3 +8,7 @@ CREATE TABLE phrase_public.user
     primary key(`id`),
     unique key `nickname_password`(`nickname`, `password`)
 ) collate utf8_bin;
+
+alter table user drop index `nickname_password`;
+alter table user add unique (nickname);
+alter table user add unique (access_token);

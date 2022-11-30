@@ -4,5 +4,6 @@ public enum Code {
     REQUEST_VALIDATION_ERROR,
     NICKNAME_TAKEN,
     INTERNAL_SERVER_ERROR,
-    TEST
+    TEST,
+    USER_NOT_FOUND
 }
