@@ -1,5 +1,6 @@
 package com.exen.example.controller;
 
+import com.exen.example.domen.api.LoginReq;
 import com.exen.example.domen.api.RegistrationReq;
 import com.exen.example.domen.response.Response;
 import com.exen.example.service.PhraseService;
@@ -35,6 +36,14 @@ public class Controller {
         log.info("Start endpoint registration, request: {}", req);
         ResponseEntity<Response> response = phraseService.registration(req);
         log.info("End endpoint registration, response: {}", response);
+        return response;
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<Response> login(@RequestBody final LoginReq req) {
+        log.info("Start endpoint login, request: {}", req);
+        ResponseEntity<Response> response = phraseService.login(req);
+        log.info("End endpoint login, response: {}", response);
         return response;
     }
 }

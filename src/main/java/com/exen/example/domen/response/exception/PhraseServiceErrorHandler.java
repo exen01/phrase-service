@@ -13,12 +13,23 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class PhraseServiceErrorHandler {
 
+    /**
+     * Handle common exceptions
+     *
+     * @param exception common exception
+     * @return error response
+     */
     @ExceptionHandler(CommonException.class)
     public ResponseEntity<ErrorResponse> handleCommonException(CommonException exception) {
         log.error("Common error: {}", exception.toString());
         return new ResponseEntity<>(ErrorResponse.builder().error(Error.builder().code(exception.getCode()).message(exception.getMessage()).build()).build(), exception.getHttpStatus());
     }
 
+    /**
+     * Handle all unexpected exceptions
+     * @param exception any exception
+     * @return error response
+     */
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleUnexpectedErrorException(Exception exception) {
         exception.printStackTrace();
