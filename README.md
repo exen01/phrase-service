@@ -18,8 +18,10 @@ id, nickname, password, access_token, time_insert
 **Входящие данные**
 ```json
 {
-  "nickname": "barabashka",
-  "password": "barabashka1980"
+  "authorization": {
+    "nickname": "login_example",
+    "password": "password_example"
+  }
 }
 ```
 **Валидация**<br/>
