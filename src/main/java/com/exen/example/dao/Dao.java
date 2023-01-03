@@ -27,4 +27,36 @@ public interface Dao {
      * @return access token
      */
     String getAccessToken(User user);
+
+    /**
+     * Gets object id by access token
+     *
+     * @param accessToken access token
+     * @return object id
+     */
+    long getIdByAccessToken(String accessToken);
+
+    /**
+     * Adds new phrase to DB
+     *
+     * @param userId user id
+     * @param text   phrase text
+     * @return new phrase id
+     */
+    long addPhrase(long userId, String text);
+
+    /**
+     * Adds new tag to DB
+     *
+     * @param tag new tag
+     */
+    void addTag(String tag);
+
+    /**
+     * Adds tag to phrase
+     *
+     * @param phraseId phrase id
+     * @param tag      tag
+     */
+    void addPhraseTag(long phraseId, String tag);
 }

@@ -5,5 +5,6 @@ public enum Code {
     NICKNAME_TAKEN,
     INTERNAL_SERVER_ERROR,
     TEST,
+    AUTHORIZATION_ERROR,
     USER_NOT_FOUND
 }

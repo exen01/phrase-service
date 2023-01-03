@@ -1,6 +1,7 @@
 package com.exen.example.controller;
 
 import com.exen.example.domen.api.LoginReq;
+import com.exen.example.domen.api.PublishPhraseReq;
 import com.exen.example.domen.api.RegistrationReq;
 import com.exen.example.domen.response.Response;
 import com.exen.example.service.PhraseService;
@@ -44,6 +45,14 @@ public class Controller {
         log.info("Start endpoint login, request: {}", req);
         ResponseEntity<Response> response = phraseService.login(req);
         log.info("End endpoint login, response: {}", response);
+        return response;
+    }
+
+    @PostMapping("/publish-phrase")
+    public ResponseEntity<Response> publishPhrase(@RequestHeader final String accessToken, @RequestBody final PublishPhraseReq req) {
+        log.info("Start endpoint publishPhrase, accessToken: {}, request: {}", accessToken, req);
+        ResponseEntity<Response> response = phraseService.publishPhrase(req, accessToken);
+        log.info("End endpoint publishPhrase, response: {}", response);
         return response;
     }
 }

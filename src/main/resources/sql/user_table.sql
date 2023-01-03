@@ -31,6 +31,7 @@ CREATE TABLE phrase_public.tag
     primary key(`id`),
     unique(`text`)
 ) collate utf8_bin;
+INSERT INTO tag(text) VALUE ('test');
 
 CREATE TABLE phrase_public.phrase_tag
 (

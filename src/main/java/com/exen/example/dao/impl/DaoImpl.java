@@ -78,5 +78,56 @@ public class DaoImpl extends JdbcDaoSupport implements Dao {
         }
     }
 
+    /**
+     * Gets object id by access token
+     *
+     * @param accessToken access token
+     * @return object id
+     */
+    @Override
+    public long getIdByAccessToken(String accessToken) {
+        try {
+            return jdbcTemplate.queryForObject("SELECT id FROM user WHERE access_token=?;", Long.class, accessToken);
+        } catch (EmptyResultDataAccessException exception) {
+            log.error(exception.toString());
+            throw CommonException.builder().code(Code.AUTHORIZATION_ERROR).message("Ошибка авторизации").httpStatus(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
+    /**
+     * Adds new phrase to DB
+     *
+     * @param userId user id
+     * @param text   phrase text
+     * @return new phrase id
+     */
+    @Override
+    public long addPhrase(long userId, String text) {
+        jdbcTemplate.update("INSERT INTO phrase(user_id,text) VALUES (?,?);", userId, text);
+        return jdbcTemplate.queryForObject("SELECT id FROM phrase WHERE id = LAST_INSERT_ID();", Long.class);
+    }
+
+    /**
+     * Adds new tag to DB
+     * You need to have at least 1 tag in the table for this query to work correctly
+     *
+     * @param tag new tag
+     */
+    @Override
+    public void addTag(String tag) {
+        jdbcTemplate.update("INSERT INTO tag(text) SELECT DISTINCT LOWER(?) FROM tag WHERE NOT EXISTS (SELECT text FROM tag WHERE text = LOWER(?));", tag, tag);
+    }
+
+    /**
+     * Adds tag to phrase
+     *
+     * @param phraseId phrase id
+     * @param tag      tag
+     */
+    @Override
+    public void addPhraseTag(long phraseId, String tag) {
+        jdbcTemplate.update("INSERT IGNORE INTO phrase_tag(phrase_id,tag_id) VALUES (?, (SELECT id FROM tag WHERE text = LOWER(?)));", phraseId, tag);
+    }
+
 
 }

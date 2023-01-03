@@ -1,10 +1,7 @@
 package com.exen.example.service.impl;
 
 import com.exen.example.dao.Dao;
-import com.exen.example.domen.api.LoginReq;
-import com.exen.example.domen.api.LoginResp;
-import com.exen.example.domen.api.RegistrationReq;
-import com.exen.example.domen.api.RegistrationResp;
+import com.exen.example.domen.api.*;
 import com.exen.example.domen.constant.Code;
 import com.exen.example.domen.dto.User;
 import com.exen.example.domen.response.Response;
@@ -76,5 +73,26 @@ public class PhraseServiceImpl implements PhraseService {
         return new ResponseEntity<>(SuccessResponse.builder().data(LoginResp.builder().accessToken(accessToken).build()).build(), HttpStatus.OK);
     }
 
+    /**
+     * Publish phrase
+     *
+     * @param req         request
+     * @param accessToken access token
+     * @return response
+     */
+    @Override
+    public ResponseEntity<Response> publishPhrase(PublishPhraseReq req, String accessToken) {
+        validationUtils.validationRequest(req);
 
+        long userId = dao.getIdByAccessToken(accessToken);
+        long phraseId = dao.addPhrase(userId, req.getText());
+        log.info("userId: {}, phraseId: {}", userId, phraseId);
+
+        for (String tag : req.getTags()) {
+            dao.addTag(tag);
+            dao.addPhraseTag(phraseId, tag);
+        }
+
+        return new ResponseEntity<>(SuccessResponse.builder().build(), HttpStatus.OK);
+    }
 }
