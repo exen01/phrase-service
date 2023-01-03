@@ -132,7 +132,7 @@ nickname и password, если находит - возвращает accessToken
 }
 ```
 
-## 2 Метод publishPhrase
+## 2 Метод publish-phrase
 
 **Входящие данные**<br/>
 `AccessToken: 8e043390d24642a9ae64e303568c27d61666011676410`
@@ -158,7 +158,7 @@ AUTHORIZATION_ERROR, иначе получает id юзера по accessToken.
 Записывает фразу в таблицу phrase, по каждому тегу проверяет есть ли в таблице tag такой тег, если нет - записывает.
 Получает id всех тегов, записывает id фразы и тегов в таблицу phrase_tag.
 
-## 3 Метод getMyPhrases
+## 3 Метод my-phrases
 
 **Входящие данные**<br/>
 `AccessToken: 8e043390d24642a9ae64e303568c27d61666011676410`
