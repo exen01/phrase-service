@@ -1,4 +1,4 @@
-package com.exen.example.domen.dto;
+package com.exen.example.domain.api;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +9,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
-    private String nickname;
-    private String encryptPassword;
+public class RegistrationResp {
     private String accessToken;
 }

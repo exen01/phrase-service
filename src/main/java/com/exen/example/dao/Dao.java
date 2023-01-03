@@ -1,7 +1,10 @@
 package com.exen.example.dao;
 
-import com.exen.example.domen.dto.User;
+import com.exen.example.domain.dto.User;
+import com.exen.example.domain.entity.Phrase;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public interface Dao {
@@ -27,4 +30,52 @@ public interface Dao {
      * @return access token
      */
     String getAccessToken(User user);
+
+    /**
+     * Gets user id by access token
+     *
+     * @param accessToken access token
+     * @return object id
+     */
+    long getUserIdByAccessToken(String accessToken);
+
+    /**
+     * Adds new phrase to DB
+     *
+     * @param userId user id
+     * @param text   phrase text
+     * @return new phrase id
+     */
+    long addPhrase(long userId, String text);
+
+    /**
+     * Adds new tag to DB
+     *
+     * @param tag new tag
+     */
+    void addTag(String tag);
+
+    /**
+     * Adds tag to phrase
+     *
+     * @param phraseId phrase id
+     * @param tag      tag
+     */
+    void addPhraseTag(long phraseId, String tag);
+
+    /**
+     * Gets phrases by user id
+     *
+     * @param userId user id
+     * @return list of phrases
+     */
+    List<Phrase> getPhrasesByUserId(long userId);
+
+    /**
+     * Gets tags by phrase id
+     *
+     * @param phraseId phrase id
+     * @return list of tags
+     */
+    List<String> getTagsByPhraseId(long phraseId);
 }

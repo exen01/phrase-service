@@ -1,14 +1,11 @@
-package com.exen.example.domen.api;
+package com.exen.example.domain.api;
 
-import com.exen.example.domen.constant.RegExp;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 
 @Data
 @Builder
@@ -16,5 +13,5 @@ import javax.validation.constraints.Pattern;
 @AllArgsConstructor
 public class RegistrationReq {
     @NotNull(message = "authorization должен быть заполнен.")
-    private Authorization authorization;
+    private AuthorizationReq authorizationReq;
 }

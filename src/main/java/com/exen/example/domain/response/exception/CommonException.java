@@ -1,6 +1,6 @@
-package com.exen.example.domen.response.exception;
+package com.exen.example.domain.response.exception;
 
-import com.exen.example.domen.constant.Code;
+import com.exen.example.domain.constant.Code;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 @Builder
 public class CommonException extends RuntimeException {
     private final Code code;
-    private final String message;
+    private final String userMessage;
+    private final String techMessage;
     private final HttpStatus httpStatus;
 }

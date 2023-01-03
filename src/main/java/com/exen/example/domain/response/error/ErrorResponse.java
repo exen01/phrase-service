@@ -1,6 +1,6 @@
-package com.exen.example.domen.response.error;
+package com.exen.example.domain.response.error;
 
-import com.exen.example.domen.response.Response;
+import com.exen.example.domain.response.Response;
 import lombok.Builder;
 import lombok.Data;
 
