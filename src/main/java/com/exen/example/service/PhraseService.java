@@ -1,9 +1,9 @@
 package com.exen.example.service;
 
-import com.exen.example.domen.api.LoginReq;
-import com.exen.example.domen.api.PublishPhraseReq;
-import com.exen.example.domen.api.RegistrationReq;
-import com.exen.example.domen.response.Response;
+import com.exen.example.domain.api.LoginReq;
+import com.exen.example.domain.api.PublishPhraseReq;
+import com.exen.example.domain.api.RegistrationReq;
+import com.exen.example.domain.response.Response;
 import org.springframework.http.ResponseEntity;
 
 public interface PhraseService {
@@ -38,4 +38,12 @@ public interface PhraseService {
      * @return response
      */
     ResponseEntity<Response> publishPhrase(PublishPhraseReq req, String accessToken);
+
+    /**
+     * Gets user phrases
+     *
+     * @param accessToken user access token
+     * @return response
+     */
+    ResponseEntity<Response> getMyPhrases(String accessToken);
 }

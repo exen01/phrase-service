@@ -1,4 +1,4 @@
-package com.exen.example.domen.constant;
+package com.exen.example.domain.constant;
 
 public class RegExp {
     public static final String nickname = "^[a-zA-Z0-9а-яА-Я. _-]{4,15}$";

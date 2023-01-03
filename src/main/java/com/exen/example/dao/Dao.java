@@ -1,7 +1,10 @@
 package com.exen.example.dao;
 
-import com.exen.example.domen.dto.User;
+import com.exen.example.domain.dto.User;
+import com.exen.example.domain.entity.Phrase;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public interface Dao {
@@ -29,12 +32,12 @@ public interface Dao {
     String getAccessToken(User user);
 
     /**
-     * Gets object id by access token
+     * Gets user id by access token
      *
      * @param accessToken access token
      * @return object id
      */
-    long getIdByAccessToken(String accessToken);
+    long getUserIdByAccessToken(String accessToken);
 
     /**
      * Adds new phrase to DB
@@ -59,4 +62,20 @@ public interface Dao {
      * @param tag      tag
      */
     void addPhraseTag(long phraseId, String tag);
+
+    /**
+     * Gets phrases by user id
+     *
+     * @param userId user id
+     * @return list of phrases
+     */
+    List<Phrase> getPhrasesByUserId(long userId);
+
+    /**
+     * Gets tags by phrase id
+     *
+     * @param phraseId phrase id
+     * @return list of tags
+     */
+    List<String> getTagsByPhraseId(long phraseId);
 }

@@ -1,6 +1,6 @@
-package com.exen.example.domen.api;
+package com.exen.example.domain.api;
 
-import com.exen.example.domen.constant.RegExp;
+import com.exen.example.domain.constant.RegExp;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

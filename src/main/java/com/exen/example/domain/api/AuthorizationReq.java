@@ -1,6 +1,6 @@
-package com.exen.example.domen.api;
+package com.exen.example.domain.api;
 
-import com.exen.example.domen.constant.RegExp;
+import com.exen.example.domain.constant.RegExp;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +13,7 @@ import javax.validation.constraints.Pattern;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Authorization {
+public class AuthorizationReq {
     @NotBlank(message = "nickname должен быть заполнен.")
     @Pattern(regexp = RegExp.nickname, message = "Некорректный nickname.")
     private String nickname;

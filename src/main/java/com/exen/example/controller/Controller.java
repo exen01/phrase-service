@@ -1,9 +1,9 @@
 package com.exen.example.controller;
 
-import com.exen.example.domen.api.LoginReq;
-import com.exen.example.domen.api.PublishPhraseReq;
-import com.exen.example.domen.api.RegistrationReq;
-import com.exen.example.domen.response.Response;
+import com.exen.example.domain.api.LoginReq;
+import com.exen.example.domain.api.PublishPhraseReq;
+import com.exen.example.domain.api.RegistrationReq;
+import com.exen.example.domain.response.Response;
 import com.exen.example.service.PhraseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -53,6 +53,14 @@ public class Controller {
         log.info("Start endpoint publishPhrase, accessToken: {}, request: {}", accessToken, req);
         ResponseEntity<Response> response = phraseService.publishPhrase(req, accessToken);
         log.info("End endpoint publishPhrase, response: {}", response);
+        return response;
+    }
+
+    @GetMapping("/my-phrases")
+    public ResponseEntity<Response> getMyPhrases(@RequestHeader final String accessToken) {
+        log.info("Start endpoint getMyPhrases, accessToken: {}", accessToken);
+        ResponseEntity<Response> response = phraseService.getMyPhrases(accessToken);
+        log.info("End endpoint getMyPhrases, response: {}", response);
         return response;
     }
 }

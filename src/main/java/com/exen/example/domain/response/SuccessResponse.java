@@ -1,4 +1,4 @@
-package com.exen.example.domen.response;
+package com.exen.example.domain.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
