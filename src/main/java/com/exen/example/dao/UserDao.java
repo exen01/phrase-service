@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public interface Dao {
+public interface UserDao {
     /**
      * Check existing nickname
      *

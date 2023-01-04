@@ -1,4 +1,4 @@
-package com.exen.example.domain.api;
+package com.exen.example.domain.api.user.common;
 
 import com.exen.example.domain.constant.RegExp;
 import lombok.AllArgsConstructor;

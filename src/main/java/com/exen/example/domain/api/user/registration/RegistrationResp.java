@@ -1,4 +1,4 @@
-package com.exen.example.domain.api;
+package com.exen.example.domain.api.user.registration;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

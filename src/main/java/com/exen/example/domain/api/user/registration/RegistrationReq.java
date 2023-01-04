@@ -1,5 +1,6 @@
-package com.exen.example.domain.api;
+package com.exen.example.domain.api.user.registration;
 
+import com.exen.example.domain.api.user.common.AuthorizationReq;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -1,14 +1,20 @@
 package com.exen.example.service.impl;
 
-import com.exen.example.dao.Dao;
-import com.exen.example.domain.api.*;
+import com.exen.example.dao.UserDao;
+import com.exen.example.domain.api.user.login.LoginReq;
+import com.exen.example.domain.api.user.login.LoginResp;
+import com.exen.example.domain.api.user.myPhrases.MyPhrasesResp;
+import com.exen.example.domain.api.user.myPhrases.PhraseResp;
+import com.exen.example.domain.api.user.publishPhrase.PublishPhraseReq;
+import com.exen.example.domain.api.user.registration.RegistrationReq;
+import com.exen.example.domain.api.user.registration.RegistrationResp;
 import com.exen.example.domain.constant.Code;
 import com.exen.example.domain.dto.User;
 import com.exen.example.domain.entity.Phrase;
 import com.exen.example.domain.response.Response;
 import com.exen.example.domain.response.SuccessResponse;
 import com.exen.example.domain.response.exception.CommonException;
-import com.exen.example.service.PhraseService;
+import com.exen.example.service.UserService;
 import com.exen.example.util.EncryptUtils;
 import com.exen.example.util.ValidationUtils;
 import lombok.RequiredArgsConstructor;
@@ -24,9 +30,9 @@ import java.util.UUID;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class PhraseServiceImpl implements PhraseService {
+public class UserServiceImpl implements UserService {
     private final ValidationUtils validationUtils;
-    private final Dao dao;
+    private final UserDao userDao;
     private final EncryptUtils encryptUtils;
 
     /**
@@ -49,13 +55,13 @@ public class PhraseServiceImpl implements PhraseService {
     public ResponseEntity<Response> registration(RegistrationReq req) {
         validationUtils.validationRequest(req);
 
-        if (dao.isExistsNickname(req.getAuthorizationReq().getNickname())) {
+        if (userDao.isExistsNickname(req.getAuthorizationReq().getNickname())) {
             throw CommonException.builder().code(Code.NICKNAME_TAKEN).userMessage("Этот ник уже занят, придумайте другой.").httpStatus(HttpStatus.BAD_REQUEST).build();
         }
 
         String accessToken = UUID.randomUUID().toString().replace("-", "") + System.currentTimeMillis();
         String encryptPassword = encryptUtils.encryptPassword(req.getAuthorizationReq().getPassword());
-        dao.insertNewUser(User.builder().nickname(req.getAuthorizationReq().getNickname()).encryptPassword(encryptPassword).accessToken(accessToken).build());
+        userDao.insertNewUser(User.builder().nickname(req.getAuthorizationReq().getNickname()).encryptPassword(encryptPassword).accessToken(accessToken).build());
 
         return new ResponseEntity<>(SuccessResponse.builder().data(RegistrationResp.builder().accessToken(accessToken).build()).build(), HttpStatus.OK);
     }
@@ -71,7 +77,7 @@ public class PhraseServiceImpl implements PhraseService {
         validationUtils.validationRequest(req);
 
         String encryptPassword = encryptUtils.encryptPassword(req.getAuthorizationReq().getPassword());
-        String accessToken = dao.getAccessToken(User.builder().nickname(req.getAuthorizationReq().getNickname()).encryptPassword(encryptPassword).build());
+        String accessToken = userDao.getAccessToken(User.builder().nickname(req.getAuthorizationReq().getNickname()).encryptPassword(encryptPassword).build());
         return new ResponseEntity<>(SuccessResponse.builder().data(LoginResp.builder().accessToken(accessToken).build()).build(), HttpStatus.OK);
     }
 
@@ -86,13 +92,13 @@ public class PhraseServiceImpl implements PhraseService {
     public ResponseEntity<Response> publishPhrase(PublishPhraseReq req, String accessToken) {
         validationUtils.validationRequest(req);
 
-        long userId = dao.getUserIdByAccessToken(accessToken);
-        long phraseId = dao.addPhrase(userId, req.getText());
+        long userId = userDao.getUserIdByAccessToken(accessToken);
+        long phraseId = userDao.addPhrase(userId, req.getText());
         log.info("userId: {}, phraseId: {}", userId, phraseId);
 
         for (String tag : req.getTags()) {
-            dao.addTag(tag);
-            dao.addPhraseTag(phraseId, tag);
+            userDao.addTag(tag);
+            userDao.addPhraseTag(phraseId, tag);
         }
 
         return new ResponseEntity<>(SuccessResponse.builder().build(), HttpStatus.OK);
@@ -106,12 +112,12 @@ public class PhraseServiceImpl implements PhraseService {
      */
     @Override
     public ResponseEntity<Response> getMyPhrases(String accessToken) {
-        long userId = dao.getUserIdByAccessToken(accessToken);
-        List<Phrase> phraseList = dao.getPhrasesByUserId(userId);
+        long userId = userDao.getUserIdByAccessToken(accessToken);
+        List<Phrase> phraseList = userDao.getPhrasesByUserId(userId);
 
         List<PhraseResp> phraseRespList = new ArrayList<>();
         for (Phrase phrase : phraseList) {
-            List<String> tags = dao.getTagsByPhraseId(phrase.getId());
+            List<String> tags = userDao.getTagsByPhraseId(phrase.getId());
             phraseRespList.add(PhraseResp.builder()
                     .id(phrase.getId())
                     .text(phrase.getText())

@@ -1,12 +1,12 @@
 package com.exen.example.service;
 
-import com.exen.example.domain.api.LoginReq;
-import com.exen.example.domain.api.PublishPhraseReq;
-import com.exen.example.domain.api.RegistrationReq;
+import com.exen.example.domain.api.user.login.LoginReq;
+import com.exen.example.domain.api.user.publishPhrase.PublishPhraseReq;
+import com.exen.example.domain.api.user.registration.RegistrationReq;
 import com.exen.example.domain.response.Response;
 import org.springframework.http.ResponseEntity;
 
-public interface PhraseService {
+public interface UserService {
     /**
      * Method for testing response
      *
