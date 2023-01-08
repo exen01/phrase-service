@@ -1,8 +1,11 @@
 package com.exen.example.dao.impl;
 
 import com.exen.example.dao.SearchDao;
-import com.exen.example.domain.api.search.searchTags.TagResp;
-import com.exen.example.domain.api.search.searchTags.TagRespRowMapper;
+import com.exen.example.domain.api.search.searchPhrasesByTag.PhraseRespRowMapper;
+import com.exen.example.domain.api.search.searchPhrasesByTag.SearchPhrasesByTagReq;
+import com.exen.example.domain.api.common.TagResp;
+import com.exen.example.domain.api.common.TagRespRowMapper;
+import com.exen.example.domain.api.user.myPhrases.PhraseResp;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -55,5 +58,20 @@ public class SearchDaoImpl extends JdbcDaoSupport implements SearchDao {
                         "           GROUP BY tag.id " +
                         "           ORDER BY count(tag.id) DESC) t2;"
                 , new TagRespRowMapper(), partTag, partTag);
+    }
+
+    /**
+     * Searches phrases by tag id
+     *
+     * @param req tag id, sort method
+     * @return list of phrases
+     */
+    @Override
+    public List<PhraseResp> searchPhrasesByTag(SearchPhrasesByTagReq req) {
+        return jdbcTemplate.query("SELECT phrase.id AS phrase_id, u.id AS user_id, u.nickname, phrase.text, phrase.time_insert " +
+                "FROM phrase " +
+                "         JOIN user u on phrase.user_id = u.id " +
+                "WHERE phrase.id IN (SELECT phrase_id FROM phrase_tag WHERE tag_id = ?) " +
+                "ORDER BY " + req.getSort().getValue() + ";", new PhraseRespRowMapper(), req.getTagId());
     }
 }

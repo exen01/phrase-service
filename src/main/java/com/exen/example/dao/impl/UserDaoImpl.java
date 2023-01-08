@@ -82,22 +82,6 @@ public class UserDaoImpl extends JdbcDaoSupport implements UserDao {
     }
 
     /**
-     * Gets object id by access token
-     *
-     * @param accessToken access token
-     * @return object id
-     */
-    @Override
-    public long getUserIdByAccessToken(String accessToken) {
-        try {
-            return jdbcTemplate.queryForObject("SELECT id FROM user WHERE access_token=?;", Long.class, accessToken);
-        } catch (EmptyResultDataAccessException exception) {
-            log.error(exception.toString());
-            throw CommonException.builder().code(Code.AUTHORIZATION_ERROR).userMessage("Ошибка авторизации").httpStatus(HttpStatus.BAD_REQUEST).build();
-        }
-    }
-
-    /**
      * Adds new phrase to DB
      *
      * @param userId user id
@@ -142,17 +126,4 @@ public class UserDaoImpl extends JdbcDaoSupport implements UserDao {
     public List<Phrase> getPhrasesByUserId(long userId) {
         return jdbcTemplate.query("SELECT * FROM phrase WHERE user_id = ? ORDER BY time_insert DESC;", new PhraseRowMapper(), userId);
     }
-
-    /**
-     * Gets tags by phrase id
-     *
-     * @param phraseId phrase id
-     * @return list of tags
-     */
-    @Override
-    public List<String> getTagsByPhraseId(long phraseId) {
-        return jdbcTemplate.queryForList("SELECT text FROM tag WHERE id IN (SELECT tag_id FROM phrase_tag WHERE phrase_id = ?);", String.class, phraseId);
-    }
-
-
 }

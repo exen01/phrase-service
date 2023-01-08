@@ -1,5 +1,6 @@
 package com.exen.example.domain.api.user.myPhrases;
 
+import com.exen.example.domain.api.common.TagResp;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,8 +13,10 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PhraseResp {
-    private long id;
+    private long phraseId;
+    private long userId;
+    private String nickname;
     private String text;
     private String timeInsert;
-    private List<String> tags;
+    private List<TagResp> tags;
 }

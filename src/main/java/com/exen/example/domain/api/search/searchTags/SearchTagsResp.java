@@ -1,5 +1,6 @@
 package com.exen.example.domain.api.search.searchTags;
 
+import com.exen.example.domain.api.common.TagResp;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
