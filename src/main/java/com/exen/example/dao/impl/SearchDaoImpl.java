@@ -1,6 +1,8 @@
 package com.exen.example.dao.impl;
 
 import com.exen.example.dao.SearchDao;
+import com.exen.example.domain.api.common.UserResp;
+import com.exen.example.domain.api.common.UserRespRowMapper;
 import com.exen.example.domain.api.search.searchPhrasesByPartWord.SearchPhrasesByPartWordReq;
 import com.exen.example.domain.api.search.searchPhrasesByTag.PhraseRespRowMapper;
 import com.exen.example.domain.api.search.searchPhrasesByTag.SearchPhrasesByTagReq;
@@ -89,5 +91,27 @@ public class SearchDaoImpl extends JdbcDaoSupport implements SearchDao {
                 "         JOIN user u on phrase.user_id = u.id " +
                 "WHERE LOWER(phrase.text) LIKE CONCAT('%',LOWER(?),'%') " +
                 "ORDER BY " + req.getSort().getValue() + ";", new PhraseRespRowMapper(), req.getPartWord());
+    }
+
+    /**
+     * Searches users by part or full nickname
+     *
+     * @param partNickname part or full nickname
+     * @return list of users
+     */
+    @Override
+    public List<UserResp> searchUsersByPartNickname(String partNickname) {
+        return jdbcTemplate.query("SELECT id, nickname " +
+                        "FROM(" +
+                        "           SELECT id, nickname " +
+                        "           FROM user " +
+                        "           WHERE LOWER(nickname) LIKE CONCAT(LOWER(?), '%')) t1 " +
+                        "UNION " +
+                        "SELECT id, nickname " +
+                        "FROM(" +
+                        "           SELECT id, nickname " +
+                        "           FROM user " +
+                        "           WHERE LOWER(nickname) LIKE CONCAT('%', LOWER(?), '%')) t2;",
+                new UserRespRowMapper(), partNickname, partNickname);
     }
 }

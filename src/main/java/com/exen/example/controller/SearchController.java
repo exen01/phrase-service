@@ -3,6 +3,7 @@ package com.exen.example.controller;
 import com.exen.example.domain.api.search.searchPhrasesByPartWord.SearchPhrasesByPartWordReq;
 import com.exen.example.domain.api.search.searchPhrasesByTag.SearchPhrasesByTagReq;
 import com.exen.example.domain.api.search.searchTags.SearchTagsReq;
+import com.exen.example.domain.api.search.searchUsersByPartNickname.SearchUsersByPartNicknameReq;
 import com.exen.example.domain.response.Response;
 import com.exen.example.service.SearchService;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +27,7 @@ public class SearchController {
         return response;
     }
 
-    @PostMapping("/search-by-tag")
+    @PostMapping("/search-phrases-by-tag")
     public ResponseEntity<Response> searchPhrasesByTag(@RequestHeader String accessToken, @RequestBody final SearchPhrasesByTagReq req) {
         log.info("Start endpoint searchPhrasesByTag, accessToken: {}, request: {}", accessToken, req);
         ResponseEntity<Response> response = searchService.searchPhrasesByTag(req, accessToken);
@@ -34,11 +35,19 @@ public class SearchController {
         return response;
     }
 
-    @PostMapping("/search-by-word")
+    @PostMapping("/search-phrases-by-word")
     public ResponseEntity<Response> searchPhrasesByPartWord(@RequestHeader String accessToken, @RequestBody final SearchPhrasesByPartWordReq req) {
         log.info("Start endpoint searchPhrasesByPartWord, accessToken: {}, request: {}", accessToken, req);
         ResponseEntity<Response> response = searchService.searchPhrasesByPartWord(req, accessToken);
         log.info("End endpoint searchPhrasesByPartWord, response: {}", response);
+        return response;
+    }
+
+    @PostMapping("/search-users-by-nickname")
+    public ResponseEntity<Response> searchUsersByPartNickname(@RequestHeader String accessToken, @RequestBody final SearchUsersByPartNicknameReq req) {
+        log.info("Start endpoint searchUsersByPartNickname, accessToken: {}, request: {}", accessToken, req);
+        ResponseEntity<Response> response = searchService.searchUsersByPartNickname(req, accessToken);
+        log.info("End endpoint searchUsersByPartNickname, response: {}", response);
         return response;
     }
 

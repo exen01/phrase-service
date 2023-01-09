@@ -10,6 +10,7 @@ import com.exen.example.domain.api.search.searchPhrasesByTag.SearchPhrasesByTagR
 import com.exen.example.domain.api.search.searchTags.SearchTagsReq;
 import com.exen.example.domain.api.search.searchTags.SearchTagsResp;
 import com.exen.example.domain.api.common.TagResp;
+import com.exen.example.domain.api.search.searchUsersByPartNickname.SearchUsersByPartNicknameReq;
 import com.exen.example.domain.api.user.myPhrases.PhraseResp;
 import com.exen.example.domain.response.Response;
 import com.exen.example.domain.response.SuccessResponse;
@@ -88,5 +89,20 @@ public class SearchServiceImpl implements SearchService {
         }
 
         return new ResponseEntity<>(SuccessResponse.builder().data(SearchPhrasesByPartWordResp.builder().phrases(phraseRespList).build()).build(), HttpStatus.OK);
+    }
+
+    /**
+     * Searches users by part or full nickname
+     *
+     * @param req         part or full nickname
+     * @param accessToken user access token
+     * @return list of users
+     */
+    @Override
+    public ResponseEntity<Response> searchUsersByPartNickname(SearchUsersByPartNicknameReq req, String accessToken) {
+        validationUtils.validationRequest(req);
+        commonDao.getUserIdByAccessToken(accessToken);
+
+        return new ResponseEntity<>(SuccessResponse.builder().data(searchDao.searchUsersByPartNickname(req.getPartNickname())).build(), HttpStatus.OK);
     }
 }

@@ -1,5 +1,6 @@
 package com.exen.example.dao;
 
+import com.exen.example.domain.api.common.UserResp;
 import com.exen.example.domain.api.search.searchPhrasesByPartWord.SearchPhrasesByPartWordReq;
 import com.exen.example.domain.api.search.searchPhrasesByTag.SearchPhrasesByTagReq;
 import com.exen.example.domain.api.common.TagResp;
@@ -31,4 +32,12 @@ public interface SearchDao {
      * @return list of phrases
      */
     List<PhraseResp> searchPhrasesByPartWord(SearchPhrasesByPartWordReq req);
+
+    /**
+     * Searches users by part or full nickname
+     *
+     * @param partNickname part or full nickname
+     * @return list of users
+     */
+    List<UserResp> searchUsersByPartNickname(String partNickname);
 }
