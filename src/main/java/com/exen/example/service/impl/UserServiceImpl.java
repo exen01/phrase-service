@@ -1,6 +1,8 @@
 package com.exen.example.service.impl;
 
+import com.exen.example.dao.CommonDao;
 import com.exen.example.dao.UserDao;
+import com.exen.example.domain.api.common.TagResp;
 import com.exen.example.domain.api.user.login.LoginReq;
 import com.exen.example.domain.api.user.login.LoginResp;
 import com.exen.example.domain.api.user.myPhrases.MyPhrasesResp;
@@ -32,6 +34,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final ValidationUtils validationUtils;
+    private final CommonDao commonDao;
     private final UserDao userDao;
     private final EncryptUtils encryptUtils;
 
@@ -92,7 +95,7 @@ public class UserServiceImpl implements UserService {
     public ResponseEntity<Response> publishPhrase(PublishPhraseReq req, String accessToken) {
         validationUtils.validationRequest(req);
 
-        long userId = userDao.getUserIdByAccessToken(accessToken);
+        long userId = commonDao.getUserIdByAccessToken(accessToken);
         long phraseId = userDao.addPhrase(userId, req.getText());
         log.info("userId: {}, phraseId: {}", userId, phraseId);
 
@@ -112,14 +115,14 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public ResponseEntity<Response> getMyPhrases(String accessToken) {
-        long userId = userDao.getUserIdByAccessToken(accessToken);
+        long userId = commonDao.getUserIdByAccessToken(accessToken);
         List<Phrase> phraseList = userDao.getPhrasesByUserId(userId);
 
         List<PhraseResp> phraseRespList = new ArrayList<>();
         for (Phrase phrase : phraseList) {
-            List<String> tags = userDao.getTagsByPhraseId(phrase.getId());
+            List<TagResp> tags = commonDao.getTagsByPhraseId(phrase.getId());
             phraseRespList.add(PhraseResp.builder()
-                    .id(phrase.getId())
+                    .phraseId(phrase.getId())
                     .text(phrase.getText())
                     .timeInsert(phrase.getTimeInsert())
                     .tags(tags).build());

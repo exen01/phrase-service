@@ -1,4 +1,4 @@
-package com.exen.example.domain.api.user.myPhrases;
+package com.exen.example.domain.api.search.searchTags;
 
 import com.exen.example.domain.api.common.TagResp;
 import lombok.AllArgsConstructor;
@@ -12,11 +12,6 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PhraseResp {
-    private long phraseId;
-    private long userId;
-    private String nickname;
-    private String text;
-    private String timeInsert;
+public class SearchTagsResp {
     private List<TagResp> tags;
 }

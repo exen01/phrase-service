@@ -32,14 +32,6 @@ public interface UserDao {
     String getAccessToken(User user);
 
     /**
-     * Gets user id by access token
-     *
-     * @param accessToken access token
-     * @return object id
-     */
-    long getUserIdByAccessToken(String accessToken);
-
-    /**
      * Adds new phrase to DB
      *
      * @param userId user id
@@ -70,12 +62,4 @@ public interface UserDao {
      * @return list of phrases
      */
     List<Phrase> getPhrasesByUserId(long userId);
-
-    /**
-     * Gets tags by phrase id
-     *
-     * @param phraseId phrase id
-     * @return list of tags
-     */
-    List<String> getTagsByPhraseId(long phraseId);
 }
