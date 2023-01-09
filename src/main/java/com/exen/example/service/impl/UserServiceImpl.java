@@ -1,5 +1,6 @@
 package com.exen.example.service.impl;
 
+import com.exen.example.config.MapperConfig;
 import com.exen.example.dao.CommonDao;
 import com.exen.example.dao.UserDao;
 import com.exen.example.domain.api.common.TagResp;
@@ -37,6 +38,7 @@ public class UserServiceImpl implements UserService {
     private final CommonDao commonDao;
     private final UserDao userDao;
     private final EncryptUtils encryptUtils;
+    private final MapperConfig mapper;
 
     /**
      * Method for testing response
@@ -121,11 +123,9 @@ public class UserServiceImpl implements UserService {
         List<PhraseResp> phraseRespList = new ArrayList<>();
         for (Phrase phrase : phraseList) {
             List<TagResp> tags = commonDao.getTagsByPhraseId(phrase.getId());
-            phraseRespList.add(PhraseResp.builder()
-                    .phraseId(phrase.getId())
-                    .text(phrase.getText())
-                    .timeInsert(phrase.getTimeInsert())
-                    .tags(tags).build());
+            PhraseResp phraseResp = mapper.getMapper().map(phrase, PhraseResp.class);
+            phraseResp.setTags(tags);
+            phraseRespList.add(phraseResp);
         }
 
         return new ResponseEntity<>(SuccessResponse.builder().data(MyPhrasesResp.builder().phrases(phraseRespList).build()).build(), HttpStatus.OK);
