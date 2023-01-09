@@ -1,7 +1,9 @@
 package com.exen.example.service;
 
+import com.exen.example.domain.api.search.searchPhrasesByPartWord.SearchPhrasesByPartWordReq;
 import com.exen.example.domain.api.search.searchPhrasesByTag.SearchPhrasesByTagReq;
 import com.exen.example.domain.api.search.searchTags.SearchTagsReq;
+import com.exen.example.domain.api.search.searchUsersByPartNickname.SearchUsersByPartNicknameReq;
 import com.exen.example.domain.response.Response;
 import org.springframework.http.ResponseEntity;
 
@@ -23,4 +25,22 @@ public interface SearchService {
      * @return list of phrases
      */
     ResponseEntity<Response> searchPhrasesByTag(SearchPhrasesByTagReq req, String accessToken);
+
+    /**
+     * Searches phrases by part or full word
+     *
+     * @param req         part or full word, sort method
+     * @param accessToken user access token
+     * @return list of phrases
+     */
+    ResponseEntity<Response> searchPhrasesByPartWord(SearchPhrasesByPartWordReq req, String accessToken);
+
+    /**
+     * Searches users by part or full nickname
+     *
+     * @param req         part or full nickname
+     * @param accessToken user access token
+     * @return list of users
+     */
+    ResponseEntity<Response> searchUsersByPartNickname(SearchUsersByPartNicknameReq req, String accessToken);
 }
