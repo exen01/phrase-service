@@ -14,5 +14,5 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class RegistrationReq {
     @NotNull(message = "authorization должен быть заполнен.")
-    private AuthorizationReq authorizationReq;
+    private AuthorizationReq authorization;
 }

@@ -6,6 +6,7 @@ import com.exen.example.domain.response.error.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -23,7 +24,11 @@ public class PhraseServiceErrorHandler {
     @ExceptionHandler(CommonException.class)
     public ResponseEntity<ErrorResponse> handleCommonException(CommonException exception) {
         log.error("Common error: {}", exception.toString());
-        return new ResponseEntity<>(ErrorResponse.builder().error(Error.builder().code(exception.getCode()).userMessage(exception.getMessage()).build()).build(), exception.getHttpStatus());
+        return new ResponseEntity<>(ErrorResponse.builder().error(Error.builder()
+                .code(exception.getCode())
+                .userMessage(exception.getUserMessage())
+                .techMessage(exception.getTechMessage())
+                .build()).build(), exception.getHttpStatus());
     }
 
     /**
@@ -43,5 +48,11 @@ public class PhraseServiceErrorHandler {
     public ResponseEntity<ErrorResponse> handleMissingRequestHeaderException(MissingRequestHeaderException exception) {
         log.error("MissingRequestHeaderException: {}", exception.toString());
         return new ResponseEntity<>(ErrorResponse.builder().error(Error.builder().code(Code.MISSING_REQUEST_HEADER).techMessage(exception.getMessage()).build()).build(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ErrorResponse> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
+        log.error("HttpMessageNotReadableException: {}", ex.toString());
+        return new ResponseEntity<>(ErrorResponse.builder().error(Error.builder().code(Code.NOT_READABLE).techMessage(ex.getMessage()).build()).build(), HttpStatus.BAD_REQUEST);
     }
 }

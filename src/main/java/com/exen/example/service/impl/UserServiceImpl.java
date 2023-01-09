@@ -58,13 +58,13 @@ public class UserServiceImpl implements UserService {
     public ResponseEntity<Response> registration(RegistrationReq req) {
         validationUtils.validationRequest(req);
 
-        if (userDao.isExistsNickname(req.getAuthorizationReq().getNickname())) {
+        if (userDao.isExistsNickname(req.getAuthorization().getNickname())) {
             throw CommonException.builder().code(Code.NICKNAME_TAKEN).userMessage("Этот ник уже занят, придумайте другой.").httpStatus(HttpStatus.BAD_REQUEST).build();
         }
 
         String accessToken = UUID.randomUUID().toString().replace("-", "") + System.currentTimeMillis();
-        String encryptPassword = encryptUtils.encryptPassword(req.getAuthorizationReq().getPassword());
-        userDao.insertNewUser(User.builder().nickname(req.getAuthorizationReq().getNickname()).encryptPassword(encryptPassword).accessToken(accessToken).build());
+        String encryptPassword = encryptUtils.encryptPassword(req.getAuthorization().getPassword());
+        userDao.insertNewUser(User.builder().nickname(req.getAuthorization().getNickname()).encryptPassword(encryptPassword).accessToken(accessToken).build());
 
         return new ResponseEntity<>(SuccessResponse.builder().data(RegistrationResp.builder().accessToken(accessToken).build()).build(), HttpStatus.OK);
     }
@@ -79,8 +79,8 @@ public class UserServiceImpl implements UserService {
     public ResponseEntity<Response> login(LoginReq req) {
         validationUtils.validationRequest(req);
 
-        String encryptPassword = encryptUtils.encryptPassword(req.getAuthorizationReq().getPassword());
-        String accessToken = userDao.getAccessToken(User.builder().nickname(req.getAuthorizationReq().getNickname()).encryptPassword(encryptPassword).build());
+        String encryptPassword = encryptUtils.encryptPassword(req.getAuthorization().getPassword());
+        String accessToken = userDao.getAccessToken(User.builder().nickname(req.getAuthorization().getNickname()).encryptPassword(encryptPassword).build());
         return new ResponseEntity<>(SuccessResponse.builder().data(LoginResp.builder().accessToken(accessToken).build()).build(), HttpStatus.OK);
     }
 
