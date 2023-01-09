@@ -1,6 +1,7 @@
 package com.exen.example.dao.impl;
 
 import com.exen.example.dao.SearchDao;
+import com.exen.example.domain.api.search.searchPhrasesByPartWord.SearchPhrasesByPartWordReq;
 import com.exen.example.domain.api.search.searchPhrasesByTag.PhraseRespRowMapper;
 import com.exen.example.domain.api.search.searchPhrasesByTag.SearchPhrasesByTagReq;
 import com.exen.example.domain.api.common.TagResp;
@@ -73,5 +74,20 @@ public class SearchDaoImpl extends JdbcDaoSupport implements SearchDao {
                 "         JOIN user u on phrase.user_id = u.id " +
                 "WHERE phrase.id IN (SELECT phrase_id FROM phrase_tag WHERE tag_id = ?) " +
                 "ORDER BY " + req.getSort().getValue() + ";", new PhraseRespRowMapper(), req.getTagId());
+    }
+
+    /**
+     * Searches phrases by part or full word
+     *
+     * @param req part or full word, sort method
+     * @return list of phrases
+     */
+    @Override
+    public List<PhraseResp> searchPhrasesByPartWord(SearchPhrasesByPartWordReq req) {
+        return jdbcTemplate.query("SELECT phrase.id AS phrase_id, u.id AS user_id, u.nickname, phrase.text, phrase.time_insert " +
+                "FROM phrase " +
+                "         JOIN user u on phrase.user_id = u.id " +
+                "WHERE LOWER(phrase.text) LIKE CONCAT('%',LOWER(?),'%') " +
+                "ORDER BY " + req.getSort().getValue() + ";", new PhraseRespRowMapper(), req.getPartWord());
     }
 }

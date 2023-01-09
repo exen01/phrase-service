@@ -3,6 +3,8 @@ package com.exen.example.service.impl;
 import com.exen.example.dao.CommonDao;
 import com.exen.example.dao.SearchDao;
 import com.exen.example.dao.UserDao;
+import com.exen.example.domain.api.search.searchPhrasesByPartWord.SearchPhrasesByPartWordReq;
+import com.exen.example.domain.api.search.searchPhrasesByPartWord.SearchPhrasesByPartWordResp;
 import com.exen.example.domain.api.search.searchPhrasesByTag.SearchPhrasesByTagReq;
 import com.exen.example.domain.api.search.searchPhrasesByTag.SearchPhrasesByTagResp;
 import com.exen.example.domain.api.search.searchTags.SearchTagsReq;
@@ -65,5 +67,26 @@ public class SearchServiceImpl implements SearchService {
         }
 
         return new ResponseEntity<>(SuccessResponse.builder().data(SearchPhrasesByTagResp.builder().phrases(phrases).build()).build(), HttpStatus.OK);
+    }
+
+    /**
+     * Searches phrases by part or full word
+     *
+     * @param req         part or full word, sort method
+     * @param accessToken user access token
+     * @return list of phrases
+     */
+    @Override
+    public ResponseEntity<Response> searchPhrasesByPartWord(SearchPhrasesByPartWordReq req, String accessToken) {
+        validationUtils.validationRequest(req);
+        commonDao.getUserIdByAccessToken(accessToken);
+
+        List<PhraseResp> phraseRespList = searchDao.searchPhrasesByPartWord(req);
+        for (PhraseResp phraseResp : phraseRespList) {
+            List<TagResp> tags = commonDao.getTagsByPhraseId(phraseResp.getPhraseId());
+            phraseResp.setTags(tags);
+        }
+
+        return new ResponseEntity<>(SuccessResponse.builder().data(SearchPhrasesByPartWordResp.builder().phrases(phraseRespList).build()).build(), HttpStatus.OK);
     }
 }
