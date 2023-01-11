@@ -2,6 +2,7 @@ package com.exen.example.service.impl.communication;
 
 import com.exen.example.dao.CommonDao;
 import com.exen.example.dao.communication.SubscriptionDao;
+import com.exen.example.domain.api.communication.getMySubscribers.GetMySubscribersResp;
 import com.exen.example.domain.api.communication.subscription.SubscriptionReq;
 import com.exen.example.domain.api.communication.unsubscription.UnsubscriptionReq;
 import com.exen.example.domain.constant.Code;
@@ -65,5 +66,23 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
         subscriptionDao.unsubscription(subUserId, pubUserId);
         return new ResponseEntity<>(SuccessResponse.builder().build(), HttpStatus.OK);
+    }
+
+    /**
+     * Gets user subscribers
+     *
+     * @param accessToken user access token
+     * @return list of subscribers
+     */
+    @Override
+    public ResponseEntity<Response> getMySubscribers(String accessToken) {
+        long userId = commonDao.getUserIdByAccessToken(accessToken);
+        log.info("userId: {}", userId);
+
+        return new ResponseEntity<>(
+                SuccessResponse.builder()
+                        .data(GetMySubscribersResp.builder()
+                                .subscribers(subscriptionDao.getMySubscribers(userId)).build()
+                        ).build(), HttpStatus.OK);
     }
 }

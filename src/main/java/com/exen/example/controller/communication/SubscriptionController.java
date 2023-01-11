@@ -17,13 +17,13 @@ public class SubscriptionController {
 
     private final SubscriptionService subscriptionService;
 
-    /*@GetMapping("/subscribers")
+    @GetMapping("/subscribers")
     public ResponseEntity<Response> getMySubscribers(@RequestHeader String accessToken) {
         log.info("Start endpoint getMySubscribers, accessToken: {}", accessToken);
         ResponseEntity<Response> response = subscriptionService.getMySubscribers(accessToken);
         log.info("End endpoint getMySubscribers, response: {}", response);
         return response;
-    }*/
+    }
 
     /*@GetMapping("/publishers")
     public ResponseEntity<Response> getMyPublishers(@RequestHeader String accessToken) {

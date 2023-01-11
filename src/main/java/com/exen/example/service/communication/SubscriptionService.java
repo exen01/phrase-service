@@ -24,4 +24,12 @@ public interface SubscriptionService {
      * @return response
      */
     ResponseEntity<Response> unsubscription(UnsubscriptionReq req, String accessToken);
+
+    /**
+     * Gets user subscribers
+     *
+     * @param accessToken user access token
+     * @return list of subscribers
+     */
+    ResponseEntity<Response> getMySubscribers(String accessToken);
 }

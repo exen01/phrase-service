@@ -1,6 +1,8 @@
 package com.exen.example.dao.impl.communication;
 
 import com.exen.example.dao.communication.SubscriptionDao;
+import com.exen.example.domain.api.common.UserResp;
+import com.exen.example.domain.api.common.UserRespRowMapper;
 import com.exen.example.domain.constant.Code;
 import com.exen.example.domain.response.exception.CommonException;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
+import java.util.List;
 
 @Slf4j
 @Repository
@@ -59,5 +62,16 @@ public class SubscriptionDaoImpl extends JdbcDaoSupport implements SubscriptionD
     @Override
     public void unsubscription(long subUserId, long pubUserId) {
         jdbcTemplate.update("DELETE FROM subscription WHERE sub_user_id = ? AND pub_user_id = ?;", subUserId, pubUserId);
+    }
+
+    /**
+     * Gets user subscribers
+     *
+     * @param userId user id
+     * @return list of subscribers
+     */
+    @Override
+    public List<UserResp> getMySubscribers(long userId) {
+        return jdbcTemplate.query("SELECT id, nickname FROM user WHERE id IN (SELECT sub_user_id FROM subscription WHERE pub_user_id = ?);", new UserRespRowMapper(), userId);
     }
 }

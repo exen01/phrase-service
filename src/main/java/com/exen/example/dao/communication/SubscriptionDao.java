@@ -1,5 +1,9 @@
 package com.exen.example.dao.communication;
 
+import com.exen.example.domain.api.common.UserResp;
+
+import java.util.List;
+
 public interface SubscriptionDao {
     /**
      * Subscribes the user with subUserId to the user with pubUserId
@@ -16,4 +20,12 @@ public interface SubscriptionDao {
      * @param pubUserId user publisher id
      */
     void unsubscription(long subUserId, long pubUserId);
+
+    /**
+     * Gets user subscribers
+     *
+     * @param userId user id
+     * @return list of subscribers
+     */
+    List<UserResp> getMySubscribers(long userId);
 }
