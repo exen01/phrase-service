@@ -49,4 +49,15 @@ public class SubscriptionDaoImpl extends JdbcDaoSupport implements SubscriptionD
             throw CommonException.builder().code(Code.PUBLISHER_NOT_FOUND).userMessage("Не найден пользователь для подписки.").httpStatus(HttpStatus.BAD_REQUEST).build();
         }
     }
+
+    /**
+     * Unsubscribes the user with subUserId from the user with pubUserId
+     *
+     * @param subUserId user subscriber id
+     * @param pubUserId user publisher id
+     */
+    @Override
+    public void unsubscription(long subUserId, long pubUserId) {
+        jdbcTemplate.update("DELETE FROM subscription WHERE sub_user_id = ? AND pub_user_id = ?;", subUserId, pubUserId);
+    }
 }

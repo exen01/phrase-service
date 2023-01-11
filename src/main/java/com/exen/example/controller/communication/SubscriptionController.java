@@ -1,6 +1,7 @@
 package com.exen.example.controller.communication;
 
 import com.exen.example.domain.api.communication.subscription.SubscriptionReq;
+import com.exen.example.domain.api.communication.unsubscription.UnsubscriptionReq;
 import com.exen.example.domain.response.Response;
 import com.exen.example.service.communication.SubscriptionService;
 import lombok.RequiredArgsConstructor;
@@ -40,13 +41,13 @@ public class SubscriptionController {
         return response;
     }
 
-    /*@GetMapping("/unsubscription")
+    @PostMapping("/unsubscription")
     public ResponseEntity<Response> unsubscription(@RequestHeader String accessToken, @RequestBody final UnsubscriptionReq req) {
         log.info("Start endpoint unsubscription, accessToken: {}, request: {}", accessToken, req);
         ResponseEntity<Response> response = subscriptionService.unsubscription(req, accessToken);
         log.info("End endpoint unsubscription, response: {}", response);
         return response;
-    }*/
+    }
 
 
 }
