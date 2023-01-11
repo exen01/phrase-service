@@ -32,4 +32,12 @@ public interface SubscriptionService {
      * @return list of subscribers
      */
     ResponseEntity<Response> getMySubscribers(String accessToken);
+
+    /**
+     * Gets user publishers
+     *
+     * @param accessToken user access token
+     * @return list of publishers
+     */
+    ResponseEntity<Response> getMyPublishers(String accessToken);
 }

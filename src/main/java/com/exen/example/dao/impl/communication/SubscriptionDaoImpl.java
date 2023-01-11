@@ -74,4 +74,15 @@ public class SubscriptionDaoImpl extends JdbcDaoSupport implements SubscriptionD
     public List<UserResp> getMySubscribers(long userId) {
         return jdbcTemplate.query("SELECT id, nickname FROM user WHERE id IN (SELECT sub_user_id FROM subscription WHERE pub_user_id = ?);", new UserRespRowMapper(), userId);
     }
+
+    /**
+     * Gets user publishers
+     *
+     * @param userId user id
+     * @return list of publishers
+     */
+    @Override
+    public List<UserResp> getMyPublishers(long userId) {
+        return jdbcTemplate.query("SELECT id, nickname FROM user WHERE id IN (SELECT pub_user_id FROM subscription WHERE sub_user_id = ?);", new UserRespRowMapper(), userId);
+    }
 }

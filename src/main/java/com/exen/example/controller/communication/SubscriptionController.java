@@ -25,13 +25,13 @@ public class SubscriptionController {
         return response;
     }
 
-    /*@GetMapping("/publishers")
+    @GetMapping("/publishers")
     public ResponseEntity<Response> getMyPublishers(@RequestHeader String accessToken) {
         log.info("Start endpoint getMyPublishers, accessToken: {}", accessToken);
         ResponseEntity<Response> response = subscriptionService.getMyPublishers(accessToken);
         log.info("End endpoint getMyPublishers, response: {}", response);
         return response;
-    }*/
+    }
 
     @PostMapping("/subscription")
     public ResponseEntity<Response> subscription(@RequestHeader String accessToken, @RequestBody final SubscriptionReq req) {

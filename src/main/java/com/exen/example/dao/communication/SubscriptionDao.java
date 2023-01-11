@@ -28,4 +28,12 @@ public interface SubscriptionDao {
      * @return list of subscribers
      */
     List<UserResp> getMySubscribers(long userId);
+
+    /**
+     * Gets user publishers
+     *
+     * @param userId user id
+     * @return list of publishers
+     */
+    List<UserResp> getMyPublishers(long userId);
 }
