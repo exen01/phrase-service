@@ -20,4 +20,11 @@ public interface CommonDao {
      * @return list of tags
      */
     List<TagResp> getTagsByPhraseId(long phraseId);
+
+    /**
+     * Test
+     *
+     * @param instanceName test value
+     */
+    void testSchedulerLock(String instanceName);
 }
