@@ -45,3 +45,26 @@ CREATE TABLE phrase_public.phrase_tag
     unique `phrase_id_tag_id` (`phrase_id`, `tag_id`)
 ) collate utf8_bin;
 
+CREATE TABLE phrase_public.subscription(
+    id BIGINT AUTO_INCREMENT,
+    sub_user_id BIGINT NOT NULL,
+    pub_user_id BIGINT NOT NULL,
+    time_insert TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY(`id`),
+    FOREIGN KEY(`sub_user_id`) REFERENCES user(`id`),
+    FOREIGN KEY(`pub_user_id`) REFERENCES user(`id`),
+    UNIQUE `sub_user_id_pub_user_id`(`sub_user_id`, `pub_user_id`)
+) COLLATE utf8_bin;
+
+CREATE TABLE test_scheduler_lock(
+    instance_name VARCHAR(64) NOT NULL,
+    time_insert TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE shedlock(
+    NAME VARCHAR(64) NOT NULL,
+    lock_until TIMESTAMP(3) NOT NULL,
+    locked_at TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    locked_by VARCHAR(255) NOT NULL,
+    PRIMARY KEY(`name`)
+);

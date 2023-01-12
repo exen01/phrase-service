@@ -60,4 +60,14 @@ public class CommonDaoImpl extends JdbcDaoSupport implements CommonDao {
     public List<TagResp> getTagsByPhraseId(long phraseId) {
         return jdbcTemplate.query("SELECT text, id FROM tag WHERE id IN (SELECT tag_id FROM phrase_tag WHERE phrase_id = ?);", new TagRespRowMapper(), phraseId);
     }
+
+    /**
+     * Test
+     *
+     * @param s test value
+     */
+    @Override
+    public void testSchedulerLock(String instanceName) {
+        jdbcTemplate.update("INSERT INTO test_scheduler_lock(instance_name) VALUES(?);", instanceName);
+    }
 }
