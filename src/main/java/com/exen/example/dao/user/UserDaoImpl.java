@@ -1,6 +1,6 @@
-package com.exen.example.dao.impl;
+package com.exen.example.dao.user;
 
-import com.exen.example.dao.UserDao;
+import com.exen.example.dao.user.UserDao;
 import com.exen.example.domain.constant.Code;
 import com.exen.example.domain.dto.User;
 import com.exen.example.domain.entity.Phrase;

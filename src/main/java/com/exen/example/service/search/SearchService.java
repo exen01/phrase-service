@@ -1,4 +1,4 @@
-package com.exen.example.service;
+package com.exen.example.service.search;
 
 import com.exen.example.domain.api.search.searchPhrasesByPartWord.SearchPhrasesByPartWordReq;
 import com.exen.example.domain.api.search.searchPhrasesByTag.SearchPhrasesByTagReq;

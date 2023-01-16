@@ -1,4 +1,4 @@
-package com.exen.example.service;
+package com.exen.example.service.user;
 
 import com.exen.example.domain.api.user.login.LoginReq;
 import com.exen.example.domain.api.user.publishPhrase.PublishPhraseReq;

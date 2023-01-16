@@ -40,4 +40,14 @@ public interface SubscriptionService {
      * @return list of publishers
      */
     ResponseEntity<Response> getMyPublishers(String accessToken);
+
+    /**
+     * Gets user's publishers phrases
+     *
+     * @param accessToken user access token
+     * @param from        first phrase in the list
+     * @param limit       number of phrases in the list
+     * @return list of publishers phrases
+     */
+    ResponseEntity<Response> getMyPublishersPhrases(String accessToken, int from, int limit);
 }

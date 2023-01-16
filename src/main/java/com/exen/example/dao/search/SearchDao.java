@@ -1,10 +1,10 @@
-package com.exen.example.dao;
+package com.exen.example.dao.search;
 
 import com.exen.example.domain.api.common.UserResp;
 import com.exen.example.domain.api.search.searchPhrasesByPartWord.SearchPhrasesByPartWordReq;
 import com.exen.example.domain.api.search.searchPhrasesByTag.SearchPhrasesByTagReq;
 import com.exen.example.domain.api.common.TagResp;
-import com.exen.example.domain.api.user.myPhrases.PhraseResp;
+import com.exen.example.domain.api.common.PhraseResp;
 
 import java.util.List;
 

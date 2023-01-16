@@ -1,4 +1,4 @@
-package com.exen.example.dao;
+package com.exen.example.dao.common;
 
 import com.exen.example.domain.api.common.TagResp;
 

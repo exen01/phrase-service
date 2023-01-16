@@ -1,4 +1,4 @@
-package com.exen.example.domain.api.search.searchPhrasesByTag;
+package com.exen.example.domain.api.communication.getMyPublishersPhrases;
 
 import com.exen.example.domain.api.common.PhraseResp;
 import lombok.AllArgsConstructor;
@@ -12,6 +12,6 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SearchPhrasesByTagResp {
+public class GetMyPublishersPhrasesResp {
     private List<PhraseResp> phrases;
 }

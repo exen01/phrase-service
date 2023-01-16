@@ -1,14 +1,14 @@
-package com.exen.example.dao.impl;
+package com.exen.example.dao.search;
 
-import com.exen.example.dao.SearchDao;
+import com.exen.example.dao.search.SearchDao;
 import com.exen.example.domain.api.common.UserResp;
 import com.exen.example.domain.api.common.UserRespRowMapper;
 import com.exen.example.domain.api.search.searchPhrasesByPartWord.SearchPhrasesByPartWordReq;
-import com.exen.example.domain.api.search.searchPhrasesByTag.PhraseRespRowMapper;
+import com.exen.example.domain.api.common.PhraseRespRowMapper;
 import com.exen.example.domain.api.search.searchPhrasesByTag.SearchPhrasesByTagReq;
 import com.exen.example.domain.api.common.TagResp;
 import com.exen.example.domain.api.common.TagRespRowMapper;
-import com.exen.example.domain.api.user.myPhrases.PhraseResp;
+import com.exen.example.domain.api.common.PhraseResp;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;

@@ -528,3 +528,59 @@ pubUserId > 0
   }
 }
 ```
+
+## 9 Метод publishers-phrases
+
+**Входящие данные**<br/>
+`AccessToken: 8e043390d24642a9ae64e303568c27d61666011676410`
+
+```json
+{
+  "from": 0,
+  "limit": 100
+}
+```
+
+**Логика метода**<br/>
+Сервис возвращает фразы пользователей на которых подписан юзер, сортировка от новых к старым.
+
+**Исходящие данные в случае успеха** <br/>статус 200
+
+```json
+{
+  "data": {
+    "phrases": [
+      {
+        "phraseId": 32,
+        "userId": 9,
+        "nickname": "Some nickname",
+        "text": "Some text",
+        "timeInsert": "2022-11-21 10:42:15",
+        "tags": [
+          {
+            "tagId": 15,
+            "text": "погода"
+          },
+          {
+            "tagId": 17,
+            "text": "солнце"
+          }
+        ]
+      },
+      {
+        "phraseId": 20,
+        "userId": 4,
+        "nickname": "Some nickname - 2",
+        "text": "Some text - 2",
+        "timeInsert": "2022-11-17 16:42:15",
+        "tags": [
+          {
+            "tagId": 16,
+            "text": "непогожий"
+          }
+        ]
+      }
+    ]
+  }
+}
+```

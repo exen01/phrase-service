@@ -1,8 +1,8 @@
-package com.exen.example.service.impl;
+package com.exen.example.service.user;
 
 import com.exen.example.config.MapperConfig;
-import com.exen.example.dao.CommonDao;
-import com.exen.example.dao.UserDao;
+import com.exen.example.dao.common.CommonDao;
+import com.exen.example.dao.user.UserDao;
 import com.exen.example.domain.api.common.TagResp;
 import com.exen.example.domain.api.user.login.LoginReq;
 import com.exen.example.domain.api.user.login.LoginResp;
@@ -17,7 +17,6 @@ import com.exen.example.domain.entity.Phrase;
 import com.exen.example.domain.response.Response;
 import com.exen.example.domain.response.SuccessResponse;
 import com.exen.example.domain.response.exception.CommonException;
-import com.exen.example.service.UserService;
 import com.exen.example.util.EncryptUtils;
 import com.exen.example.util.ValidationUtils;
 import lombok.RequiredArgsConstructor;

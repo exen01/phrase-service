@@ -1,6 +1,7 @@
 package com.exen.example.domain.response.exception;
 
 import com.exen.example.domain.constant.Code;
+import com.exen.example.domain.response.Response;
 import com.exen.example.domain.response.error.Error;
 import com.exen.example.domain.response.error.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +11,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 @Slf4j
 @ControllerAdvice
@@ -55,4 +57,12 @@ public class PhraseServiceErrorHandler {
         log.error("HttpMessageNotReadableException: {}", ex.toString());
         return new ResponseEntity<>(ErrorResponse.builder().error(Error.builder().code(Code.NOT_READABLE).techMessage(ex.getMessage()).build()).build(), HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<ErrorResponse> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException exception) {
+        log.error("MethodArgumentTypeMismatchException: {}", exception.toString());
+        return new ResponseEntity<>(ErrorResponse.builder().error(Error.builder().code(Code.ARGUMENT_TYPE_MISMATCH).techMessage(exception.getMessage()).build()).build(), HttpStatus.BAD_REQUEST);
+    }
+
+
 }

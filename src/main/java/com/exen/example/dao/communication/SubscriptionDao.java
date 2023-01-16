@@ -1,6 +1,7 @@
 package com.exen.example.dao.communication;
 
 import com.exen.example.domain.api.common.UserResp;
+import com.exen.example.domain.api.common.PhraseResp;
 
 import java.util.List;
 
@@ -36,4 +37,14 @@ public interface SubscriptionDao {
      * @return list of publishers
      */
     List<UserResp> getMyPublishers(long userId);
+
+    /**
+     * Gets user's publishers phrases
+     *
+     * @param userId user id
+     * @param from   first phrase in the list
+     * @param limit  number of phrases in the list
+     * @return list of publishers phrases
+     */
+    List<PhraseResp> getMyPublishersPhrases(long userId, int from, int limit);
 }

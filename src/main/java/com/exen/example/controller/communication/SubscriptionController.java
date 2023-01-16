@@ -7,9 +7,11 @@ import com.exen.example.service.communication.SubscriptionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
+@Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("phrase-service-public/communication/subscription")
@@ -46,6 +48,14 @@ public class SubscriptionController {
         log.info("Start endpoint unsubscription, accessToken: {}, request: {}", accessToken, req);
         ResponseEntity<Response> response = subscriptionService.unsubscription(req, accessToken);
         log.info("End endpoint unsubscription, response: {}", response);
+        return response;
+    }
+
+    @GetMapping("/publishers-phrases/{from}/{limit}")
+    public ResponseEntity<Response> getMyPublishersPhrases(@RequestHeader String accessToken, @PathVariable int from, @PathVariable int limit) {
+        log.info("Start endpoint getMyPublishersPhrases, accessToken: {}, from: {}, limit: {}", accessToken, from, limit);
+        ResponseEntity<Response> response = subscriptionService.getMyPublishersPhrases(accessToken, from, limit);
+        log.info("End endpoint getMyPublishersPhrases, response: {}", response);
         return response;
     }
 

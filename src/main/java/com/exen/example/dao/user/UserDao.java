@@ -1,4 +1,4 @@
-package com.exen.example.dao;
+package com.exen.example.dao.user;
 
 import com.exen.example.domain.dto.User;
 import com.exen.example.domain.entity.Phrase;

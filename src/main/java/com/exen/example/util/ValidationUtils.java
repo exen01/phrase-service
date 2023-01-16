@@ -31,8 +31,25 @@ public class ValidationUtils {
                         .map(ConstraintViolation::getMessage)
                         .reduce((s1, s2) -> s1 + " " + s2).orElse("");
                 log.error("Переданный в запросе json невалиден, ошибки валидации: {}", resultValidations);
-                throw CommonException.builder().code(Code.REQUEST_VALIDATION_ERROR).techMessage(resultValidations).httpStatus(HttpStatus.BAD_REQUEST).build();
+                throw CommonException.builder().code(Code.REQUEST_VALIDATION_ERROR)
+                        .techMessage(resultValidations)
+                        .httpStatus(HttpStatus.BAD_REQUEST).build();
             }
+        }
+    }
+
+    /**
+     * Validate field value
+     *
+     * @param fieldName  field name
+     * @param fieldValue field value
+     * @param constraint constraint of field
+     */
+    public void validationDecimalMin(String fieldName, int fieldValue, int constraint) {
+        if (fieldValue < constraint) {
+            throw CommonException.builder().code(Code.REQUEST_VALIDATION_ERROR)
+                    .techMessage(fieldName + " должно быть больше или равно " + constraint)
+                    .httpStatus(HttpStatus.BAD_REQUEST).build();
         }
     }
 }

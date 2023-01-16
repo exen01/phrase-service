@@ -1,6 +1,6 @@
-package com.exen.example.dao.impl;
+package com.exen.example.dao.common;
 
-import com.exen.example.dao.CommonDao;
+import com.exen.example.dao.common.CommonDao;
 import com.exen.example.domain.api.common.TagResp;
 import com.exen.example.domain.api.common.TagRespRowMapper;
 import com.exen.example.domain.constant.Code;

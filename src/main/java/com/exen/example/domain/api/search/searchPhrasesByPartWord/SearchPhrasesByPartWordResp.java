@@ -1,6 +1,6 @@
 package com.exen.example.domain.api.search.searchPhrasesByPartWord;
 
-import com.exen.example.domain.api.user.myPhrases.PhraseResp;
+import com.exen.example.domain.api.common.PhraseResp;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -4,7 +4,7 @@ import com.exen.example.domain.api.user.login.LoginReq;
 import com.exen.example.domain.api.user.publishPhrase.PublishPhraseReq;
 import com.exen.example.domain.api.user.registration.RegistrationReq;
 import com.exen.example.domain.response.Response;
-import com.exen.example.service.UserService;
+import com.exen.example.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

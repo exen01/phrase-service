@@ -1,8 +1,6 @@
-package com.exen.example.domain.api.search.searchPhrasesByTag;
+package com.exen.example.domain.api.common;
 
-import com.exen.example.domain.api.user.myPhrases.PhraseResp;
-import org.springframework.jdbc.core.PreparedStatementSetter;
-import org.springframework.jdbc.core.RowCallbackHandler;
+import com.exen.example.domain.api.common.PhraseResp;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;

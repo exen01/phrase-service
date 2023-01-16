@@ -1,8 +1,7 @@
-package com.exen.example.service.impl;
+package com.exen.example.service.search;
 
-import com.exen.example.dao.CommonDao;
-import com.exen.example.dao.SearchDao;
-import com.exen.example.dao.UserDao;
+import com.exen.example.dao.common.CommonDao;
+import com.exen.example.dao.search.SearchDao;
 import com.exen.example.domain.api.search.searchPhrasesByPartWord.SearchPhrasesByPartWordReq;
 import com.exen.example.domain.api.search.searchPhrasesByPartWord.SearchPhrasesByPartWordResp;
 import com.exen.example.domain.api.search.searchPhrasesByTag.SearchPhrasesByTagReq;
@@ -11,10 +10,9 @@ import com.exen.example.domain.api.search.searchTags.SearchTagsReq;
 import com.exen.example.domain.api.search.searchTags.SearchTagsResp;
 import com.exen.example.domain.api.common.TagResp;
 import com.exen.example.domain.api.search.searchUsersByPartNickname.SearchUsersByPartNicknameReq;
-import com.exen.example.domain.api.user.myPhrases.PhraseResp;
+import com.exen.example.domain.api.common.PhraseResp;
 import com.exen.example.domain.response.Response;
 import com.exen.example.domain.response.SuccessResponse;
-import com.exen.example.service.SearchService;
 import com.exen.example.util.ValidationUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -5,7 +5,7 @@ import com.exen.example.domain.api.search.searchPhrasesByTag.SearchPhrasesByTagR
 import com.exen.example.domain.api.search.searchTags.SearchTagsReq;
 import com.exen.example.domain.api.search.searchUsersByPartNickname.SearchUsersByPartNicknameReq;
 import com.exen.example.domain.response.Response;
-import com.exen.example.service.SearchService;
+import com.exen.example.service.search.SearchService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
