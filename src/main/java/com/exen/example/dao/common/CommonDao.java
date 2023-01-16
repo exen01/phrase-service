@@ -27,4 +27,12 @@ public interface CommonDao {
      * @param instanceName test value
      */
     void testSchedulerLock(String instanceName);
+
+    /**
+     * Gets count phrase likes
+     *
+     * @param phraseId phrase id
+     * @return count of likes
+     */
+    long getCountLikes(long phraseId);
 }

@@ -1,4 +1,4 @@
-package com.exen.example.domain.api.user.myPhrases;
+package com.exen.example.domain.api.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,6 +11,6 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MyPhrasesResp {
+public class CommonPhrasesResp {
     private List<PhraseResp> phrases;
 }

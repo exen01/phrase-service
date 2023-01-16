@@ -19,4 +19,5 @@ public class PhraseResp {
     private String text;
     private String timeInsert;
     private List<TagResp> tags;
+    private long countLikes;
 }

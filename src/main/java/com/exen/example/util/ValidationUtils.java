@@ -52,4 +52,19 @@ public class ValidationUtils {
                     .httpStatus(HttpStatus.BAD_REQUEST).build();
         }
     }
+
+    /**
+     * Validate field value
+     *
+     * @param fieldName  field name
+     * @param fieldValue field value
+     * @param constraint constraint of field
+     */
+    public void validationDecimalMin(String fieldName, long fieldValue, long constraint) {
+        if (fieldValue < constraint) {
+            throw CommonException.builder().code(Code.REQUEST_VALIDATION_ERROR)
+                    .techMessage(fieldName + " должно быть больше или равно " + constraint)
+                    .httpStatus(HttpStatus.BAD_REQUEST).build();
+        }
+    }
 }

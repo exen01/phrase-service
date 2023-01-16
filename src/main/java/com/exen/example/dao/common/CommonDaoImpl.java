@@ -58,16 +58,37 @@ public class CommonDaoImpl extends JdbcDaoSupport implements CommonDao {
      */
     @Override
     public List<TagResp> getTagsByPhraseId(long phraseId) {
-        return jdbcTemplate.query("SELECT text, id FROM tag WHERE id IN (SELECT tag_id FROM phrase_tag WHERE phrase_id = ?);", new TagRespRowMapper(), phraseId);
+        try {
+            return jdbcTemplate.query("SELECT text, id FROM tag WHERE id IN (SELECT tag_id FROM phrase_tag WHERE phrase_id = ?);", new TagRespRowMapper(), phraseId);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return null;
+        }
     }
 
     /**
      * Test
      *
-     * @param s test value
+     * @param instanceName test value
      */
     @Override
     public void testSchedulerLock(String instanceName) {
         jdbcTemplate.update("INSERT INTO test_scheduler_lock(instance_name) VALUES(?);", instanceName);
+    }
+
+    /**
+     * Gets count phrase likes
+     *
+     * @param phraseId phrase id
+     * @return count of likes
+     */
+    @Override
+    public long getCountLikes(long phraseId) {
+        try {
+            return jdbcTemplate.queryForObject("SELECT COUNT(*) FROM like_phrase WHERE phrase_id = ?;", Long.class, phraseId);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return 0;
+        }
     }
 }

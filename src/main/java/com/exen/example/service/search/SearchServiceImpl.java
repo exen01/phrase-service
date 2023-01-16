@@ -2,17 +2,17 @@ package com.exen.example.service.search;
 
 import com.exen.example.dao.common.CommonDao;
 import com.exen.example.dao.search.SearchDao;
+import com.exen.example.domain.api.common.CommonPhrasesResp;
+import com.exen.example.domain.api.common.PhraseResp;
+import com.exen.example.domain.api.common.TagResp;
 import com.exen.example.domain.api.search.searchPhrasesByPartWord.SearchPhrasesByPartWordReq;
-import com.exen.example.domain.api.search.searchPhrasesByPartWord.SearchPhrasesByPartWordResp;
 import com.exen.example.domain.api.search.searchPhrasesByTag.SearchPhrasesByTagReq;
-import com.exen.example.domain.api.search.searchPhrasesByTag.SearchPhrasesByTagResp;
 import com.exen.example.domain.api.search.searchTags.SearchTagsReq;
 import com.exen.example.domain.api.search.searchTags.SearchTagsResp;
-import com.exen.example.domain.api.common.TagResp;
 import com.exen.example.domain.api.search.searchUsersByPartNickname.SearchUsersByPartNicknameReq;
-import com.exen.example.domain.api.common.PhraseResp;
 import com.exen.example.domain.response.Response;
 import com.exen.example.domain.response.SuccessResponse;
+import com.exen.example.service.common.CommonService;
 import com.exen.example.util.ValidationUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +30,7 @@ public class SearchServiceImpl implements SearchService {
     private final SearchDao searchDao;
     private final ValidationUtils validationUtils;
     private final CommonDao commonDao;
+    private final CommonService commonService;
 
     /**
      * Searches tags by title
@@ -59,13 +60,10 @@ public class SearchServiceImpl implements SearchService {
         validationUtils.validationRequest(req);
         commonDao.getUserIdByAccessToken(accessToken);
 
-        List<PhraseResp> phrases = searchDao.searchPhrasesByTag(req);
-        for (PhraseResp phraseResp : phrases) {
-            List<TagResp> tags = commonDao.getTagsByPhraseId(phraseResp.getPhraseId());
-            phraseResp.setTags(tags);
-        }
+        List<PhraseResp> phraseRespList = searchDao.searchPhrasesByTag(req);
+        commonService.phraseEnrichment(phraseRespList);
 
-        return new ResponseEntity<>(SuccessResponse.builder().data(SearchPhrasesByTagResp.builder().phrases(phrases).build()).build(), HttpStatus.OK);
+        return new ResponseEntity<>(SuccessResponse.builder().data(CommonPhrasesResp.builder().phrases(phraseRespList).build()).build(), HttpStatus.OK);
     }
 
     /**
@@ -81,12 +79,9 @@ public class SearchServiceImpl implements SearchService {
         commonDao.getUserIdByAccessToken(accessToken);
 
         List<PhraseResp> phraseRespList = searchDao.searchPhrasesByPartWord(req);
-        for (PhraseResp phraseResp : phraseRespList) {
-            List<TagResp> tags = commonDao.getTagsByPhraseId(phraseResp.getPhraseId());
-            phraseResp.setTags(tags);
-        }
+        commonService.phraseEnrichment(phraseRespList);
 
-        return new ResponseEntity<>(SuccessResponse.builder().data(SearchPhrasesByPartWordResp.builder().phrases(phraseRespList).build()).build(), HttpStatus.OK);
+        return new ResponseEntity<>(SuccessResponse.builder().data(CommonPhrasesResp.builder().phrases(phraseRespList).build()).build(), HttpStatus.OK);
     }
 
     /**
