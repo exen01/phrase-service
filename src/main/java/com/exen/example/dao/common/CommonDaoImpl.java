@@ -1,8 +1,9 @@
 package com.exen.example.dao.common;
 
-import com.exen.example.dao.common.CommonDao;
+import com.exen.example.domain.api.common.CommentRespRowMapper;
 import com.exen.example.domain.api.common.TagResp;
 import com.exen.example.domain.api.common.TagRespRowMapper;
+import com.exen.example.domain.api.common.CommentResp;
 import com.exen.example.domain.constant.Code;
 import com.exen.example.domain.response.exception.CommonException;
 import lombok.extern.slf4j.Slf4j;
@@ -89,6 +90,26 @@ public class CommonDaoImpl extends JdbcDaoSupport implements CommonDao {
         } catch (Exception exception) {
             exception.printStackTrace();
             return 0;
+        }
+    }
+
+    /**
+     * Gets phrase comments
+     *
+     * @param phraseId phrase id
+     * @return list of comments
+     */
+    @Override
+    public List<CommentResp> getCommentsByPhraseId(long phraseId) {
+        try {
+            return jdbcTemplate.query("SELECT comment.id AS comment_id, user_id, nickname, text, comment.time_insert " +
+                    "FROM comment " +
+                    "           JOIN user u ON u.id = comment.user_id " +
+                    "WHERE phrase_id = ? " +
+                    "ORDER BY comment.time_insert DESC;", new CommentRespRowMapper(), phraseId);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return null;
         }
     }
 }

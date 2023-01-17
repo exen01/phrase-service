@@ -2,6 +2,7 @@ package com.exen.example.service.communication;
 
 import com.exen.example.dao.common.CommonDao;
 import com.exen.example.dao.communication.ReactionDao;
+import com.exen.example.domain.api.communication.comment.CommentPhraseReq;
 import com.exen.example.domain.response.Response;
 import com.exen.example.domain.response.SuccessResponse;
 import com.exen.example.util.ValidationUtils;
@@ -47,6 +48,21 @@ public class ReactionServiceImpl implements ReactionService {
         validationUtils.validationDecimalMin("phraseId", phraseId, 1);
         long userId = commonDao.getUserIdByAccessToken(accessToken);
         reactionDao.deleteLikePhrase(userId, phraseId);
+        return new ResponseEntity<>(SuccessResponse.builder().build(), HttpStatus.OK);
+    }
+
+    /**
+     * Comments phrase
+     *
+     * @param accessToken user access token
+     * @param req         phrase id and comment text
+     * @return response
+     */
+    @Override
+    public ResponseEntity<Response> commentPhrase(String accessToken, CommentPhraseReq req) {
+        validationUtils.validationRequest(req);
+        long userId = commonDao.getUserIdByAccessToken(accessToken);
+        reactionDao.commentPhrase(userId, req);
         return new ResponseEntity<>(SuccessResponse.builder().build(), HttpStatus.OK);
     }
 }

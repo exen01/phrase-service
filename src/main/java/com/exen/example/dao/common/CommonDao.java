@@ -1,6 +1,7 @@
 package com.exen.example.dao.common;
 
 import com.exen.example.domain.api.common.TagResp;
+import com.exen.example.domain.api.common.CommentResp;
 
 import java.util.List;
 
@@ -35,4 +36,12 @@ public interface CommonDao {
      * @return count of likes
      */
     long getCountLikes(long phraseId);
+
+    /**
+     * Gets phrase comments
+     *
+     * @param phraseId phrase id
+     * @return list of comments
+     */
+    List<CommentResp> getCommentsByPhraseId(long phraseId);
 }

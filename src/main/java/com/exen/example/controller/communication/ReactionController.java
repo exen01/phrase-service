@@ -1,5 +1,6 @@
 package com.exen.example.controller.communication;
 
+import com.exen.example.domain.api.communication.comment.CommentPhraseReq;
 import com.exen.example.domain.response.Response;
 import com.exen.example.service.communication.ReactionService;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,14 @@ public class ReactionController {
         log.info("Start endpoint deleteLikePhrase, accessToken: {}, phraseId: {}", accessToken, phraseId);
         ResponseEntity<Response> response = reactionService.deleteLikePhrase(accessToken, phraseId);
         log.info("End endpoint deleteLikePhrase, response: {}", response);
+        return response;
+    }
+
+    @PostMapping("/comment-phrase")
+    public ResponseEntity<Response> commentPhrase(@RequestHeader String accessToken, @RequestBody final CommentPhraseReq req) {
+        log.info("Start endpoint commentPhrase, accessToken: {}, req: {}", accessToken, req);
+        ResponseEntity<Response> response = reactionService.commentPhrase(accessToken, req);
+        log.info("End endpoint commentPhrase, response: {}", response);
         return response;
     }
 }

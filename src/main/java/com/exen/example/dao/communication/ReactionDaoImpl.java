@@ -1,5 +1,6 @@
 package com.exen.example.dao.communication;
 
+import com.exen.example.domain.api.communication.comment.CommentPhraseReq;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -46,5 +47,16 @@ public class ReactionDaoImpl extends JdbcDaoSupport implements ReactionDao {
     @Override
     public void deleteLikePhrase(long userId, long phraseId) {
         jdbcTemplate.update("DELETE FROM like_phrase WHERE phrase_id = ? AND user_id = ?;", phraseId, userId);
+    }
+
+    /**
+     * Comments phrase
+     *
+     * @param userId user id
+     * @param req    phrase id and comment text
+     */
+    @Override
+    public void commentPhrase(long userId, CommentPhraseReq req) {
+        jdbcTemplate.update("INSERT IGNORE INTO comment(user_id, phrase_id, text) VALUES (?, ?, ?);", userId, req.getPhraseId(), req.getText());
     }
 }

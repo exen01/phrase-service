@@ -5,19 +5,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PhraseResp {
-    private long phraseId;
+public class CommentResp {
     private long userId;
     private String nickname;
+    private long commentId;
     private String text;
     private String timeInsert;
-    private List<TagResp> tags;
-    private long countLikes;
-    private List<CommentResp> comments;
 }

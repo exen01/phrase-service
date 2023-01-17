@@ -1,5 +1,6 @@
 package com.exen.example.service.communication;
 
+import com.exen.example.domain.api.communication.comment.CommentPhraseReq;
 import com.exen.example.domain.response.Response;
 import org.springframework.http.ResponseEntity;
 
@@ -22,4 +23,13 @@ public interface ReactionService {
      * @return response
      */
     ResponseEntity<Response> deleteLikePhrase(String accessToken, long phraseId);
+
+    /**
+     * Comments phrase
+     *
+     * @param accessToken user access token
+     * @param req         phrase id and comment text
+     * @return response
+     */
+    ResponseEntity<Response> commentPhrase(String accessToken, CommentPhraseReq req);
 }
