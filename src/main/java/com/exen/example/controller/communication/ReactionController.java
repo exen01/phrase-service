@@ -40,4 +40,12 @@ public class ReactionController {
         log.info("End endpoint commentPhrase, response: {}", response);
         return response;
     }
+
+    @DeleteMapping("/delete-comment-phrase/{commentId}")
+    public ResponseEntity<Response> deleteCommentPhrase(@RequestHeader String accessToken, @PathVariable long commentId) {
+        log.info("Start endpoint deleteCommentPhrase, accessToken: {}, commentId: {}", accessToken, commentId);
+        ResponseEntity<Response> response = reactionService.deleteCommentPhrase(accessToken, commentId);
+        log.info("Start endpoint deleteCommentPhrase, response: {}", response);
+        return response;
+    }
 }

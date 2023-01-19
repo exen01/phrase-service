@@ -32,4 +32,13 @@ public interface ReactionService {
      * @return response
      */
     ResponseEntity<Response> commentPhrase(String accessToken, CommentPhraseReq req);
+
+    /**
+     * Delete user comment or comment under user phrase
+     *
+     * @param accessToken user access token
+     * @param commentId   comment id
+     * @return response
+     */
+    ResponseEntity<Response> deleteCommentPhrase(String accessToken, long commentId);
 }

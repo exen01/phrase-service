@@ -3,8 +3,12 @@ package com.exen.example.service.communication;
 import com.exen.example.dao.common.CommonDao;
 import com.exen.example.dao.communication.ReactionDao;
 import com.exen.example.domain.api.communication.comment.CommentPhraseReq;
+import com.exen.example.domain.constant.Code;
+import com.exen.example.domain.dto.WhoseComment;
 import com.exen.example.domain.response.Response;
 import com.exen.example.domain.response.SuccessResponse;
+import com.exen.example.domain.response.error.Error;
+import com.exen.example.domain.response.error.ErrorResponse;
 import com.exen.example.util.ValidationUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -64,5 +68,30 @@ public class ReactionServiceImpl implements ReactionService {
         long userId = commonDao.getUserIdByAccessToken(accessToken);
         reactionDao.commentPhrase(userId, req);
         return new ResponseEntity<>(SuccessResponse.builder().build(), HttpStatus.OK);
+    }
+
+    /**
+     * Delete user comment or comment under user phrase
+     *
+     * @param accessToken user access token
+     * @param commentId   comment id
+     * @return response
+     */
+    @Override
+    public ResponseEntity<Response> deleteCommentPhrase(String accessToken, long commentId) {
+        validationUtils.validationDecimalMin("commentId", commentId, 1);
+        long userId = commonDao.getUserIdByAccessToken(accessToken);
+
+        WhoseComment whoseComment = reactionDao.whoseComment(commentId);
+        log.info("userId: {}, whoseComment: {}", userId, whoseComment);
+
+        if (whoseComment.getCommentUserId() == userId || whoseComment.getPhraseUserId() == userId) {
+            reactionDao.deleteCommentPhrase(commentId);
+            return new ResponseEntity<>(SuccessResponse.builder().build(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(ErrorResponse.builder().error(Error.builder().code(Code.NOT_YOUR_COMMENT)
+                    .userMessage("Это не ваш комментарий и не комментарий к вашей фразе.")
+                    .build()).build(), HttpStatus.BAD_REQUEST);
+        }
     }
 }

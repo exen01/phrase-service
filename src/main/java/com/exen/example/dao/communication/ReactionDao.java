@@ -1,6 +1,7 @@
 package com.exen.example.dao.communication;
 
 import com.exen.example.domain.api.communication.comment.CommentPhraseReq;
+import com.exen.example.domain.dto.WhoseComment;
 
 public interface ReactionDao {
 
@@ -27,4 +28,19 @@ public interface ReactionDao {
      * @param req    phrase id and comment text
      */
     void commentPhrase(long userId, CommentPhraseReq req);
+
+    /**
+     * Gets comment author id and phrase author id
+     *
+     * @param commentId comment id
+     * @return dto with ids
+     */
+    WhoseComment whoseComment(long commentId);
+
+    /**
+     * Remove comment
+     *
+     * @param commentId comment id
+     */
+    void deleteCommentPhrase(long commentId);
 }
