@@ -2,10 +2,9 @@ package com.exen.example.service.communication;
 
 import com.exen.example.dao.common.CommonDao;
 import com.exen.example.dao.communication.SubscriptionDao;
+import com.exen.example.domain.api.common.CommonPhrasesResp;
 import com.exen.example.domain.api.common.PhraseResp;
-import com.exen.example.domain.api.common.TagResp;
 import com.exen.example.domain.api.communication.getMyPublishers.GetMyPublishersResp;
-import com.exen.example.domain.api.communication.getMyPublishersPhrases.GetMyPublishersPhrasesResp;
 import com.exen.example.domain.api.communication.getMySubscribers.GetMySubscribersResp;
 import com.exen.example.domain.api.communication.subscription.SubscriptionReq;
 import com.exen.example.domain.api.communication.unsubscription.UnsubscriptionReq;
@@ -13,6 +12,7 @@ import com.exen.example.domain.constant.Code;
 import com.exen.example.domain.response.Response;
 import com.exen.example.domain.response.SuccessResponse;
 import com.exen.example.domain.response.exception.CommonException;
+import com.exen.example.service.common.CommonService;
 import com.exen.example.util.ValidationUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +30,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     private final ValidationUtils validationUtils;
     private final CommonDao commonDao;
     private final SubscriptionDao subscriptionDao;
+    private final CommonService commonService;
 
     /**
      * Matches publisher id and user id, subscribes if not equal
@@ -49,6 +50,8 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         if (subUserId == pubUserId) {
             throw CommonException.builder().code(Code.SUBSCRIPTION_LOGIC_ERROR).userMessage("Вы не можете подписаться на себя").httpStatus(HttpStatus.BAD_REQUEST).build();
         }
+
+        commonService.checkBlockByUserId(subUserId, pubUserId);
 
         subscriptionDao.subscription(subUserId, pubUserId);
         return new ResponseEntity<>(SuccessResponse.builder().build(), HttpStatus.OK);
@@ -126,12 +129,9 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         log.info("userId: {}", userId);
 
         List<PhraseResp> phraseRespList = subscriptionDao.getMyPublishersPhrases(userId, from, limit);
-        for (PhraseResp phraseResp : phraseRespList) {
-            List<TagResp> tags = commonDao.getTagsByPhraseId(phraseResp.getPhraseId());
-            phraseResp.setTags(tags);
-        }
+        commonService.phraseEnrichment(phraseRespList);
 
         return new ResponseEntity<>(SuccessResponse.builder().data(
-                GetMyPublishersPhrasesResp.builder().phrases(phraseRespList).build()).build(), HttpStatus.OK);
+                CommonPhrasesResp.builder().phrases(phraseRespList).build()).build(), HttpStatus.OK);
     }
 }

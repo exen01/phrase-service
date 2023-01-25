@@ -68,3 +68,36 @@ CREATE TABLE shedlock(
     locked_by VARCHAR(255) NOT NULL,
     PRIMARY KEY(`name`)
 );
+
+CREATE TABLE phrase_public.like_phrase(
+    id BIGINT AUTO_INCREMENT,
+    phrase_id BIGINT NOT NULL,
+    user_id BIGINT NOT NULL,
+    time_insert TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY(`id`),
+    FOREIGN KEY(`phrase_id`) REFERENCES phrase(`id`),
+    FOREIGN KEY(`user_id`) REFERENCES user(`id`),
+    UNIQUE `phrase_id_user_id`(`phrase_id`, `user_id`)
+) COLLATE utf8_bin;
+
+CREATE TABLE phrase_public.comment(
+    id BIGINT AUTO_INCREMENT,
+    user_id BIGINT NOT NULL,
+    phrase_id BIGINT NOT NULL,
+    text VARCHAR(140) NOT NULL,
+    time_insert TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY(`id`),
+    FOREIGN KEY(`phrase_id`) REFERENCES phrase(`id`),
+    FOREIGN KEY(`user_id`) REFERENCES user(`id`)
+) COLLATE utf8_bin;
+
+CREATE TABLE phrase_public.block(
+    id BIGINT AUTO_INCREMENT,
+    user_id BIGINT NOT NULL,
+    blocked_user_id BIGINT NOT NULL,
+    time_insert TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY(`id`),
+    FOREIGN KEY(`user_id`) REFERENCES user(`id`),
+    FOREIGN KEY(`block_user_id`) REFERENCES user(`id`),
+    UNIQUE `user_id_block_user_id`(`user_id`, `block_user_id`)
+) COLLATE utf8_bin;

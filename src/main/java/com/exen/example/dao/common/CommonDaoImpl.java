@@ -1,6 +1,7 @@
 package com.exen.example.dao.common;
 
-import com.exen.example.dao.common.CommonDao;
+import com.exen.example.domain.api.common.CommentResp;
+import com.exen.example.domain.api.common.CommentRespRowMapper;
 import com.exen.example.domain.api.common.TagResp;
 import com.exen.example.domain.api.common.TagRespRowMapper;
 import com.exen.example.domain.constant.Code;
@@ -58,16 +59,80 @@ public class CommonDaoImpl extends JdbcDaoSupport implements CommonDao {
      */
     @Override
     public List<TagResp> getTagsByPhraseId(long phraseId) {
-        return jdbcTemplate.query("SELECT text, id FROM tag WHERE id IN (SELECT tag_id FROM phrase_tag WHERE phrase_id = ?);", new TagRespRowMapper(), phraseId);
+        try {
+            return jdbcTemplate.query("SELECT text, id FROM tag WHERE id IN (SELECT tag_id FROM phrase_tag WHERE phrase_id = ?);", new TagRespRowMapper(), phraseId);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return null;
+        }
     }
 
     /**
      * Test
      *
-     * @param s test value
+     * @param instanceName test value
      */
     @Override
     public void testSchedulerLock(String instanceName) {
         jdbcTemplate.update("INSERT INTO test_scheduler_lock(instance_name) VALUES(?);", instanceName);
+    }
+
+    /**
+     * Gets count phrase likes
+     *
+     * @param phraseId phrase id
+     * @return count of likes
+     */
+    @Override
+    public long getCountLikes(long phraseId) {
+        try {
+            return jdbcTemplate.queryForObject("SELECT COUNT(*) FROM like_phrase WHERE phrase_id = ?;", Long.class, phraseId);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return 0;
+        }
+    }
+
+    /**
+     * Gets phrase comments
+     *
+     * @param phraseId phrase id
+     * @return list of comments
+     */
+    @Override
+    public List<CommentResp> getCommentsByPhraseId(long phraseId) {
+        try {
+            return jdbcTemplate.query("SELECT comment.id AS comment_id, user_id, nickname, text, comment.time_insert " +
+                    "FROM comment " +
+                    "           JOIN user u ON u.id = comment.user_id " +
+                    "WHERE phrase_id = ? " +
+                    "ORDER BY comment.time_insert DESC;", new CommentRespRowMapper(), phraseId);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * Check user blocking
+     *
+     * @param userId           current user id
+     * @param checkBlockUserId blocked user id
+     * @return true if user with userId blocked user with checkBlockUserId or false
+     */
+    @Override
+    public boolean isBlocked(long userId, long checkBlockUserId) {
+        return jdbcTemplate.queryForObject("SELECT EXISTS(SELECT * FROM block WHERE user_id = ? AND block_user_id = ?) AS result;", Integer.class, userId, checkBlockUserId) != 0;
+    }
+
+    /**
+     * Gets user id by phrase id
+     *
+     * @param phraseId phrase id
+     * @return author user id
+     */
+    @Override
+    public long getUserIdByPhraseId(long phraseId) {
+        return jdbcTemplate.queryForObject("SELECT user_id FROM phrase WHERE id = ?;", Long.class, phraseId);
     }
 }

@@ -1,7 +1,7 @@
 package com.exen.example.dao.user;
 
+import com.exen.example.domain.api.common.PhraseResp;
 import com.exen.example.domain.dto.User;
-import com.exen.example.domain.entity.Phrase;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -61,5 +61,5 @@ public interface UserDao {
      * @param userId user id
      * @return list of phrases
      */
-    List<Phrase> getPhrasesByUserId(long userId);
+    List<PhraseResp> getPhrasesByUserId(long userId);
 }

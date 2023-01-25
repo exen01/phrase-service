@@ -1,6 +1,5 @@
 package com.exen.example.domain.api.common;
 
-import com.exen.example.domain.api.common.TagResp;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,4 +18,6 @@ public class PhraseResp {
     private String text;
     private String timeInsert;
     private List<TagResp> tags;
+    private long countLikes;
+    private List<CommentResp> comments;
 }

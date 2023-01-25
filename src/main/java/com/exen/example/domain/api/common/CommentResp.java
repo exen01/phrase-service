@@ -1,4 +1,4 @@
-package com.exen.example.domain.entity;
+package com.exen.example.domain.api.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Phrase {
-    private long id;
+public class CommentResp {
     private long userId;
+    private String nickname;
+    private long commentId;
     private String text;
     private String timeInsert;
 }

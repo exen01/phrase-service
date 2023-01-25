@@ -1,22 +1,20 @@
 package com.exen.example.service.user;
 
-import com.exen.example.config.MapperConfig;
 import com.exen.example.dao.common.CommonDao;
 import com.exen.example.dao.user.UserDao;
-import com.exen.example.domain.api.common.TagResp;
+import com.exen.example.domain.api.common.CommonPhrasesResp;
+import com.exen.example.domain.api.common.PhraseResp;
 import com.exen.example.domain.api.user.login.LoginReq;
 import com.exen.example.domain.api.user.login.LoginResp;
-import com.exen.example.domain.api.user.myPhrases.MyPhrasesResp;
-import com.exen.example.domain.api.user.myPhrases.PhraseResp;
 import com.exen.example.domain.api.user.publishPhrase.PublishPhraseReq;
 import com.exen.example.domain.api.user.registration.RegistrationReq;
 import com.exen.example.domain.api.user.registration.RegistrationResp;
 import com.exen.example.domain.constant.Code;
 import com.exen.example.domain.dto.User;
-import com.exen.example.domain.entity.Phrase;
 import com.exen.example.domain.response.Response;
 import com.exen.example.domain.response.SuccessResponse;
 import com.exen.example.domain.response.exception.CommonException;
+import com.exen.example.service.common.CommonService;
 import com.exen.example.util.EncryptUtils;
 import com.exen.example.util.ValidationUtils;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +23,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -36,8 +33,9 @@ public class UserServiceImpl implements UserService {
     private final ValidationUtils validationUtils;
     private final CommonDao commonDao;
     private final UserDao userDao;
+    private final CommonService commonService;
     private final EncryptUtils encryptUtils;
-    private final MapperConfig mapper;
+    //private final MapperConfig mapper;
 
     /**
      * Method for testing response
@@ -117,16 +115,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseEntity<Response> getMyPhrases(String accessToken) {
         long userId = commonDao.getUserIdByAccessToken(accessToken);
-        List<Phrase> phraseList = userDao.getPhrasesByUserId(userId);
+        List<PhraseResp> phraseRespList = userDao.getPhrasesByUserId(userId);
+        commonService.phraseEnrichment(phraseRespList);
 
-        List<PhraseResp> phraseRespList = new ArrayList<>();
-        for (Phrase phrase : phraseList) {
-            List<TagResp> tags = commonDao.getTagsByPhraseId(phrase.getId());
-            PhraseResp phraseResp = mapper.getMapper().map(phrase, PhraseResp.class);
-            phraseResp.setTags(tags);
-            phraseRespList.add(phraseResp);
-        }
-
-        return new ResponseEntity<>(SuccessResponse.builder().data(MyPhrasesResp.builder().phrases(phraseRespList).build()).build(), HttpStatus.OK);
+        return new ResponseEntity<>(SuccessResponse.builder().data(CommonPhrasesResp.builder().phrases(phraseRespList).build()).build(), HttpStatus.OK);
     }
 }

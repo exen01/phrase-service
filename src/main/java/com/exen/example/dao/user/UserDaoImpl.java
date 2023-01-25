@@ -1,10 +1,9 @@
 package com.exen.example.dao.user;
 
-import com.exen.example.dao.user.UserDao;
+import com.exen.example.domain.api.common.PhraseResp;
+import com.exen.example.domain.api.common.PhraseRespRowMapper;
 import com.exen.example.domain.constant.Code;
 import com.exen.example.domain.dto.User;
-import com.exen.example.domain.entity.Phrase;
-import com.exen.example.domain.entity.PhraseRowMapper;
 import com.exen.example.domain.response.exception.CommonException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -123,7 +122,11 @@ public class UserDaoImpl extends JdbcDaoSupport implements UserDao {
      * @return list of phrases
      */
     @Override
-    public List<Phrase> getPhrasesByUserId(long userId) {
-        return jdbcTemplate.query("SELECT * FROM phrase WHERE user_id = ? ORDER BY time_insert DESC;", new PhraseRowMapper(), userId);
+    public List<PhraseResp> getPhrasesByUserId(long userId) {
+        return jdbcTemplate.query("SELECT phrase.id AS phrase_id, u.id AS user_id, u.nickname, phrase.text, phrase.time_insert " +
+                "FROM phrase " +
+                "          JOIN user u ON phrase.user_id = u.id " +
+                "WHERE user_id = ? " +
+                "ORDER BY time_insert DESC;", new PhraseRespRowMapper(), userId);
     }
 }

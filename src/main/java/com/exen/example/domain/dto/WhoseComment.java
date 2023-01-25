@@ -1,16 +1,15 @@
-package com.exen.example.domain.api.user.myPhrases;
+package com.exen.example.domain.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MyPhrasesResp {
-    private List<PhraseResp> phrases;
+public class WhoseComment {
+    private long commentUserId;
+    private long phraseUserId;
 }

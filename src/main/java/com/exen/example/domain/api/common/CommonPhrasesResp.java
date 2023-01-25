@@ -1,6 +1,5 @@
-package com.exen.example.domain.api.communication.getMyPublishersPhrases;
+package com.exen.example.domain.api.common;
 
-import com.exen.example.domain.api.common.PhraseResp;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,6 +11,6 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class GetMyPublishersPhrasesResp {
+public class CommonPhrasesResp {
     private List<PhraseResp> phrases;
 }

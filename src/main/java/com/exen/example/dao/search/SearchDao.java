@@ -23,7 +23,7 @@ public interface SearchDao {
      * @param req tag id, sort method
      * @return list of phrases
      */
-    List<PhraseResp> searchPhrasesByTag(SearchPhrasesByTagReq req);
+    List<PhraseResp> searchPhrasesByTag(SearchPhrasesByTagReq req, long userId);
 
     /**
      * Searches phrases by part or full word
@@ -31,7 +31,7 @@ public interface SearchDao {
      * @param req part or full word, sort method
      * @return list of phrases
      */
-    List<PhraseResp> searchPhrasesByPartWord(SearchPhrasesByPartWordReq req);
+    List<PhraseResp> searchPhrasesByPartWord(SearchPhrasesByPartWordReq req, long userId);
 
     /**
      * Searches users by part or full nickname
