@@ -44,4 +44,21 @@ public interface CommonDao {
      * @return list of comments
      */
     List<CommentResp> getCommentsByPhraseId(long phraseId);
+
+    /**
+     * Check user blocking
+     *
+     * @param userId           current user id
+     * @param checkBlockUserId blocked user id
+     * @return true if user with userId blocked user with checkBlockUserId,
+     */
+    boolean isBlocked(long userId, long checkBlockUserId);
+
+    /**
+     * Gets user id by phrase id
+     *
+     * @param phraseId phrase id
+     * @return author user id
+     */
+    long getUserIdByPhraseId(long phraseId);
 }

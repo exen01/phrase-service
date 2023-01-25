@@ -1,9 +1,9 @@
 package com.exen.example.dao.common;
 
+import com.exen.example.domain.api.common.CommentResp;
 import com.exen.example.domain.api.common.CommentRespRowMapper;
 import com.exen.example.domain.api.common.TagResp;
 import com.exen.example.domain.api.common.TagRespRowMapper;
-import com.exen.example.domain.api.common.CommentResp;
 import com.exen.example.domain.constant.Code;
 import com.exen.example.domain.response.exception.CommonException;
 import lombok.extern.slf4j.Slf4j;
@@ -111,5 +111,28 @@ public class CommonDaoImpl extends JdbcDaoSupport implements CommonDao {
             exception.printStackTrace();
             return null;
         }
+    }
+
+    /**
+     * Check user blocking
+     *
+     * @param userId           current user id
+     * @param checkBlockUserId blocked user id
+     * @return true if user with userId blocked user with checkBlockUserId or false
+     */
+    @Override
+    public boolean isBlocked(long userId, long checkBlockUserId) {
+        return jdbcTemplate.queryForObject("SELECT EXISTS(SELECT * FROM block WHERE user_id = ? AND block_user_id = ?) AS result;", Integer.class, userId, checkBlockUserId) != 0;
+    }
+
+    /**
+     * Gets user id by phrase id
+     *
+     * @param phraseId phrase id
+     * @return author user id
+     */
+    @Override
+    public long getUserIdByPhraseId(long phraseId) {
+        return jdbcTemplate.queryForObject("SELECT user_id FROM phrase WHERE id = ?;", Long.class, phraseId);
     }
 }

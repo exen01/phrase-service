@@ -48,4 +48,28 @@ public class ReactionController {
         log.info("Start endpoint deleteCommentPhrase, response: {}", response);
         return response;
     }
+
+    @PostMapping("/block-user/{blockUserId}")
+    public ResponseEntity<Response> blockUser(@RequestHeader String accessToken, @PathVariable long blockUserId) {
+        log.info("Start endpoint blockUser, accessToken: {}, blockUserId: {}", accessToken, blockUserId);
+        ResponseEntity<Response> response = reactionService.blockUser(accessToken, blockUserId);
+        log.info("End endpoint blockUser, response: {}", response);
+        return response;
+    }
+
+    @GetMapping("/blocked-users")
+    public ResponseEntity<Response> getBlocUsers(@RequestHeader String accessToken) {
+        log.info("Start endpoint getBlocUsers, accessToken: {}", accessToken);
+        ResponseEntity<Response> response = reactionService.getBlocUsers(accessToken);
+        log.info("End endpoint getBlocUsers, response: {}", response);
+        return response;
+    }
+
+    @DeleteMapping("/unblock-user/{blockUserId}")
+    public ResponseEntity<Response> unblockUser(@RequestHeader String accessToken, @PathVariable long blockUserId) {
+        log.info("Start endpoint blockUser, accessToken: {}, blockUserId: {}", accessToken, blockUserId);
+        ResponseEntity<Response> response = reactionService.unblockUser(accessToken, blockUserId);
+        log.info("End endpoint blockUser, response: {}", response);
+        return response;
+    }
 }

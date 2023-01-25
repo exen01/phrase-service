@@ -51,6 +51,8 @@ public class SubscriptionServiceImpl implements SubscriptionService {
             throw CommonException.builder().code(Code.SUBSCRIPTION_LOGIC_ERROR).userMessage("Вы не можете подписаться на себя").httpStatus(HttpStatus.BAD_REQUEST).build();
         }
 
+        commonService.checkBlockByUserId(subUserId, pubUserId);
+
         subscriptionDao.subscription(subUserId, pubUserId);
         return new ResponseEntity<>(SuccessResponse.builder().build(), HttpStatus.OK);
     }

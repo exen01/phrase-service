@@ -1,7 +1,10 @@
 package com.exen.example.dao.communication;
 
+import com.exen.example.domain.api.common.UserResp;
 import com.exen.example.domain.api.communication.comment.CommentPhraseReq;
 import com.exen.example.domain.dto.WhoseComment;
+
+import java.util.List;
 
 public interface ReactionDao {
 
@@ -43,4 +46,28 @@ public interface ReactionDao {
      * @param commentId comment id
      */
     void deleteCommentPhrase(long commentId);
+
+    /**
+     * Blocked user with blockUserId
+     *
+     * @param userId      current user id
+     * @param blockUserId blocked user id
+     */
+    void blockUser(long userId, long blockUserId);
+
+    /**
+     * Gets blocked users
+     *
+     * @param userId user id
+     * @return list of blocked users
+     */
+    List<UserResp> getBlockUsers(long userId);
+
+    /**
+     * Unblocked user with blockUserId
+     *
+     * @param userId      current user id
+     * @param blockUserId unblocked user id
+     */
+    void unblockUser(long userId, long blockUserId);
 }

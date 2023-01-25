@@ -1,5 +1,7 @@
 package com.exen.example.dao.communication;
 
+import com.exen.example.domain.api.common.UserResp;
+import com.exen.example.domain.api.common.UserRespRowMapper;
 import com.exen.example.domain.api.communication.comment.CommentPhraseReq;
 import com.exen.example.domain.constant.Code;
 import com.exen.example.domain.dto.WhoseComment;
@@ -16,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
+import java.util.List;
 
 @Slf4j
 @Repository
@@ -91,5 +94,38 @@ public class ReactionDaoImpl extends JdbcDaoSupport implements ReactionDao {
     @Override
     public void deleteCommentPhrase(long commentId) {
         jdbcTemplate.update("DELETE FROM comment WHERE id = ?;", commentId);
+    }
+
+    /**
+     * Blocked user with blockUserId
+     *
+     * @param userId      current user id
+     * @param blockUserId blocked user id
+     */
+    @Override
+    public void blockUser(long userId, long blockUserId) {
+        jdbcTemplate.update("INSERT IGNORE INTO block(user_id, block_user_id) VALUES(?, ?);", userId, blockUserId);
+    }
+
+    /**
+     * Gets blocked users
+     *
+     * @param userId user id
+     * @return list of blocked users
+     */
+    @Override
+    public List<UserResp> getBlockUsers(long userId) {
+        return jdbcTemplate.query("SELECT id, nickname FROM user WHERE id IN (SELECT blocked_user_id FROM block WHERE user_id = ?);", new UserRespRowMapper(), userId);
+    }
+
+    /**
+     * Unblocked user with blockUserId
+     *
+     * @param userId      current user id
+     * @param blockUserId unblocked user id
+     */
+    @Override
+    public void unblockUser(long userId, long blockUserId) {
+        jdbcTemplate.update("DELETE FROM block WHERE user_id = ? AND blocked_user_id = ?;", userId, blockUserId);
     }
 }

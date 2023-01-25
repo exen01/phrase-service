@@ -12,4 +12,19 @@ public interface CommonService {
      * @param phrases list of phrases
      */
     void phraseEnrichment(List<PhraseResp> phrases);
+
+    /**
+     * Checks user blocking by id
+     *
+     * @param userId           subscriber user id
+     * @param checkBlockUserId publisher user id
+     */
+    void checkBlockByUserId(long userId, long checkBlockUserId);
+
+    /**
+     * Checks user blocking by phrase id
+     * @param userId current user id
+     * @param phraseId phrase id
+     */
+    void checkBlockByPhraseId(long userId, long phraseId);
 }

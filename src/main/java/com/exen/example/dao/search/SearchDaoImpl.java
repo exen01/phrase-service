@@ -1,6 +1,5 @@
 package com.exen.example.dao.search;
 
-import com.exen.example.dao.search.SearchDao;
 import com.exen.example.domain.api.common.UserResp;
 import com.exen.example.domain.api.common.UserRespRowMapper;
 import com.exen.example.domain.api.search.searchPhrasesByPartWord.SearchPhrasesByPartWordReq;
@@ -70,12 +69,15 @@ public class SearchDaoImpl extends JdbcDaoSupport implements SearchDao {
      * @return list of phrases
      */
     @Override
-    public List<PhraseResp> searchPhrasesByTag(SearchPhrasesByTagReq req) {
-        return jdbcTemplate.query("SELECT phrase.id AS phrase_id, u.id AS user_id, u.nickname, phrase.text, phrase.time_insert " +
-                "FROM phrase " +
-                "         JOIN user u on phrase.user_id = u.id " +
-                "WHERE phrase.id IN (SELECT phrase_id FROM phrase_tag WHERE tag_id = ?) " +
-                "ORDER BY " + req.getSort().getValue() + ";", new PhraseRespRowMapper(), req.getTagId());
+    public List<PhraseResp> searchPhrasesByTag(SearchPhrasesByTagReq req, long userId) {
+        return jdbcTemplate.query("SELECT phrase_id, user_id, nickname, text, time_insert " +
+                "FROM ( " +
+                "          SELECT phrase.id AS phrase_id, u.id AS user_id, u.nickname, phrase.text, phrase.time_insert " +
+                "          FROM phrase " +
+                "                    JOIN user u on phrase.user_id = u.id " +
+                "          WHERE phrase.id IN (SELECT phrase_id FROM phrase_tag WHERE tag_id = ?)) AS t " +
+                "WHERE user_id NOT IN (SELECT user_id FROM block WHERE blocked_user_id = ?) " +
+                "ORDER BY " + req.getSort().getValue() + ";", new PhraseRespRowMapper(), req.getTagId(), userId);
     }
 
     /**
@@ -85,12 +87,15 @@ public class SearchDaoImpl extends JdbcDaoSupport implements SearchDao {
      * @return list of phrases
      */
     @Override
-    public List<PhraseResp> searchPhrasesByPartWord(SearchPhrasesByPartWordReq req) {
-        return jdbcTemplate.query("SELECT phrase.id AS phrase_id, u.id AS user_id, u.nickname, phrase.text, phrase.time_insert " +
-                "FROM phrase " +
-                "         JOIN user u on phrase.user_id = u.id " +
-                "WHERE LOWER(phrase.text) LIKE CONCAT('%',LOWER(?),'%') " +
-                "ORDER BY " + req.getSort().getValue() + ";", new PhraseRespRowMapper(), req.getPartWord());
+    public List<PhraseResp> searchPhrasesByPartWord(SearchPhrasesByPartWordReq req, long userId) {
+        return jdbcTemplate.query("SELECT phrase_id, user_id, nickname, text, time_insert " +
+                "FROM ( " +
+                "          SELECT phrase.id AS phrase_id, u.id AS user_id, u.nickname, phrase.text, phrase.time_insert " +
+                "          FROM phrase " +
+                "                    JOIN user u on phrase.user_id = u.id " +
+                "          WHERE LOWER(phrase.text) LIKE CONCAT('%',LOWER(?),'%')) AS t " +
+                "WHERE user_id NOT IN (SELECT user_id FROM block WHERE blocked_user_id = ?) " +
+                "ORDER BY " + req.getSort().getValue() + ";", new PhraseRespRowMapper(), req.getPartWord(), userId);
     }
 
     /**

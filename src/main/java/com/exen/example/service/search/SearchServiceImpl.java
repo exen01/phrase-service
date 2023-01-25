@@ -58,9 +58,9 @@ public class SearchServiceImpl implements SearchService {
     @Override
     public ResponseEntity<Response> searchPhrasesByTag(SearchPhrasesByTagReq req, String accessToken) {
         validationUtils.validationRequest(req);
-        commonDao.getUserIdByAccessToken(accessToken);
+        long userId = commonDao.getUserIdByAccessToken(accessToken);
 
-        List<PhraseResp> phraseRespList = searchDao.searchPhrasesByTag(req);
+        List<PhraseResp> phraseRespList = searchDao.searchPhrasesByTag(req, userId);
         commonService.phraseEnrichment(phraseRespList);
 
         return new ResponseEntity<>(SuccessResponse.builder().data(CommonPhrasesResp.builder().phrases(phraseRespList).build()).build(), HttpStatus.OK);
@@ -76,9 +76,9 @@ public class SearchServiceImpl implements SearchService {
     @Override
     public ResponseEntity<Response> searchPhrasesByPartWord(SearchPhrasesByPartWordReq req, String accessToken) {
         validationUtils.validationRequest(req);
-        commonDao.getUserIdByAccessToken(accessToken);
+        long userId = commonDao.getUserIdByAccessToken(accessToken);
 
-        List<PhraseResp> phraseRespList = searchDao.searchPhrasesByPartWord(req);
+        List<PhraseResp> phraseRespList = searchDao.searchPhrasesByPartWord(req, userId);
         commonService.phraseEnrichment(phraseRespList);
 
         return new ResponseEntity<>(SuccessResponse.builder().data(CommonPhrasesResp.builder().phrases(phraseRespList).build()).build(), HttpStatus.OK);

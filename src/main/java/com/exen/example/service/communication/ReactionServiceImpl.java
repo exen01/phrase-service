@@ -2,13 +2,16 @@ package com.exen.example.service.communication;
 
 import com.exen.example.dao.common.CommonDao;
 import com.exen.example.dao.communication.ReactionDao;
+import com.exen.example.dao.communication.SubscriptionDao;
 import com.exen.example.domain.api.communication.comment.CommentPhraseReq;
+import com.exen.example.domain.api.communication.reaction.GetBlockUsersResp;
 import com.exen.example.domain.constant.Code;
 import com.exen.example.domain.dto.WhoseComment;
 import com.exen.example.domain.response.Response;
 import com.exen.example.domain.response.SuccessResponse;
 import com.exen.example.domain.response.error.Error;
 import com.exen.example.domain.response.error.ErrorResponse;
+import com.exen.example.service.common.CommonService;
 import com.exen.example.util.ValidationUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +26,9 @@ public class ReactionServiceImpl implements ReactionService {
 
     private final ValidationUtils validationUtils;
     private final CommonDao commonDao;
+    private final CommonService commonService;
     private final ReactionDao reactionDao;
+    private final SubscriptionDao subscriptionDao;
 
     /**
      * Likes phrase
@@ -36,6 +41,9 @@ public class ReactionServiceImpl implements ReactionService {
     public ResponseEntity<Response> likePhrase(String accessToken, long phraseId) {
         validationUtils.validationDecimalMin("phraseId", phraseId, 1);
         long userId = commonDao.getUserIdByAccessToken(accessToken);
+
+        commonService.checkBlockByPhraseId(userId, phraseId);
+
         reactionDao.likePhrase(userId, phraseId);
         return new ResponseEntity<>(SuccessResponse.builder().build(), HttpStatus.OK);
     }
@@ -66,6 +74,9 @@ public class ReactionServiceImpl implements ReactionService {
     public ResponseEntity<Response> commentPhrase(String accessToken, CommentPhraseReq req) {
         validationUtils.validationRequest(req);
         long userId = commonDao.getUserIdByAccessToken(accessToken);
+
+        commonService.checkBlockByPhraseId(userId, req.getPhraseId());
+
         reactionDao.commentPhrase(userId, req);
         return new ResponseEntity<>(SuccessResponse.builder().build(), HttpStatus.OK);
     }
@@ -93,5 +104,57 @@ public class ReactionServiceImpl implements ReactionService {
                     .userMessage("Это не ваш комментарий и не комментарий к вашей фразе.")
                     .build()).build(), HttpStatus.BAD_REQUEST);
         }
+    }
+
+    /**
+     * Blocked user with blockUserId
+     *
+     * @param accessToken user access token
+     * @param blockUserId blocked user ID
+     * @return response
+     */
+    @Override
+    public ResponseEntity<Response> blockUser(String accessToken, long blockUserId) {
+        validationUtils.validationDecimalMin("blockUserId", blockUserId, 1);
+        long userId = commonDao.getUserIdByAccessToken(accessToken);
+
+        if (userId == blockUserId) {
+            return new ResponseEntity<>(ErrorResponse.builder().error(Error.builder()
+                            .code(Code.NOT_BLOCK_YOURSELF)
+                            .userMessage("Вы не можете заблокировать сами себя").build())
+                    .build(), HttpStatus.BAD_REQUEST);
+        }
+
+        reactionDao.blockUser(userId, blockUserId);
+        subscriptionDao.unsubscription(blockUserId, userId);
+        return new ResponseEntity<>(SuccessResponse.builder().build(), HttpStatus.OK);
+    }
+
+    /**
+     * Gets blocked users
+     *
+     * @param accessToken user access token
+     * @return list of blocked users
+     */
+    @Override
+    public ResponseEntity<Response> getBlocUsers(String accessToken) {
+        long userId = commonDao.getUserIdByAccessToken(accessToken);
+        return new ResponseEntity<>(SuccessResponse.builder()
+                .data(GetBlockUsersResp.builder().blockUsers(reactionDao.getBlockUsers(userId)).build()).build(), HttpStatus.OK);
+    }
+
+    /**
+     * Unblocked user with blockUserId
+     *
+     * @param accessToken user access token
+     * @param blockUserId unblocked user id
+     * @return response
+     */
+    @Override
+    public ResponseEntity<Response> unblockUser(String accessToken, long blockUserId) {
+        validationUtils.validationDecimalMin("blockUserId", blockUserId, 1);
+        long userId = commonDao.getUserIdByAccessToken(accessToken);
+        reactionDao.unblockUser(userId, blockUserId);
+        return new ResponseEntity<>(SuccessResponse.builder().build(), HttpStatus.OK);
     }
 }
