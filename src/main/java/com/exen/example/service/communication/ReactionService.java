@@ -1,6 +1,6 @@
 package com.exen.example.service.communication;
 
-import com.exen.example.domain.api.communication.comment.CommentPhraseReq;
+import com.exen.example.domain.api.communication.reaction.comment.CommentPhraseReq;
 import com.exen.example.domain.response.Response;
 import org.springframework.http.ResponseEntity;
 

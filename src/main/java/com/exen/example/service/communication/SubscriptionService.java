@@ -1,7 +1,7 @@
 package com.exen.example.service.communication;
 
-import com.exen.example.domain.api.communication.subscription.SubscriptionReq;
-import com.exen.example.domain.api.communication.unsubscription.UnsubscriptionReq;
+import com.exen.example.domain.api.communication.subscribe.subscription.SubscriptionReq;
+import com.exen.example.domain.api.communication.subscribe.unsubscription.UnsubscriptionReq;
 import com.exen.example.domain.response.Response;
 import org.springframework.http.ResponseEntity;
 

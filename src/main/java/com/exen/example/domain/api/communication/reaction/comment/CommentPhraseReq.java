@@ -1,4 +1,4 @@
-package com.exen.example.domain.api.communication.comment;
+package com.exen.example.domain.api.communication.reaction.comment;
 
 import com.exen.example.domain.constant.RegExp;
 import lombok.AllArgsConstructor;

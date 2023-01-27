@@ -1,4 +1,4 @@
-package com.exen.example.domain.api.communication.getMyPublishers;
+package com.exen.example.domain.api.communication.reaction.getBlockUsers;
 
 import com.exen.example.domain.api.common.UserResp;
 import lombok.AllArgsConstructor;
@@ -12,6 +12,6 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class GetMyPublishersResp {
-    private List<UserResp> publishers;
+public class GetBlockUsersResp {
+    private List<UserResp> blockedUsers;
 }

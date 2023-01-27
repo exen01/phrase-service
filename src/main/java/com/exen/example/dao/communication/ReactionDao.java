@@ -1,7 +1,7 @@
 package com.exen.example.dao.communication;
 
 import com.exen.example.domain.api.common.UserResp;
-import com.exen.example.domain.api.communication.comment.CommentPhraseReq;
+import com.exen.example.domain.api.communication.reaction.comment.CommentPhraseReq;
 import com.exen.example.domain.dto.WhoseComment;
 
 import java.util.List;

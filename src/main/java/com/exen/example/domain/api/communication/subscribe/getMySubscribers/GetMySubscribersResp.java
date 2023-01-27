@@ -1,4 +1,4 @@
-package com.exen.example.domain.api.communication.getMySubscribers;
+package com.exen.example.domain.api.communication.subscribe.getMySubscribers;
 
 import com.exen.example.domain.api.common.UserResp;
 import lombok.AllArgsConstructor;

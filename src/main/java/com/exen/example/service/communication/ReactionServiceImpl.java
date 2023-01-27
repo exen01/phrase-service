@@ -3,8 +3,8 @@ package com.exen.example.service.communication;
 import com.exen.example.dao.common.CommonDao;
 import com.exen.example.dao.communication.ReactionDao;
 import com.exen.example.dao.communication.SubscriptionDao;
-import com.exen.example.domain.api.communication.comment.CommentPhraseReq;
-import com.exen.example.domain.api.communication.reaction.GetBlockUsersResp;
+import com.exen.example.domain.api.communication.reaction.comment.CommentPhraseReq;
+import com.exen.example.domain.api.communication.reaction.getBlockUsers.GetBlockUsersResp;
 import com.exen.example.domain.constant.Code;
 import com.exen.example.domain.dto.WhoseComment;
 import com.exen.example.domain.response.Response;
@@ -140,7 +140,7 @@ public class ReactionServiceImpl implements ReactionService {
     public ResponseEntity<Response> getBlocUsers(String accessToken) {
         long userId = commonDao.getUserIdByAccessToken(accessToken);
         return new ResponseEntity<>(SuccessResponse.builder()
-                .data(GetBlockUsersResp.builder().blockUsers(reactionDao.getBlockUsers(userId)).build()).build(), HttpStatus.OK);
+                .data(GetBlockUsersResp.builder().blockedUsers(reactionDao.getBlockUsers(userId)).build()).build(), HttpStatus.OK);
     }
 
     /**
