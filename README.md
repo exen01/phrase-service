@@ -1,4 +1,6 @@
-# Простой сервис для публикации фраз.
+# Простой сервис для публикации фраз
+Основан на видеокурсе YouTube: [ссылка](https://www.youtube.com/playlist?list=PLQj7bfrAHT3ZAhni38YgyIiDY1JHmuSDX) / Based on YouTube video course: [link](https://www.youtube.com/playlist?list=PLQj7bfrAHT3ZAhni38YgyIiDY1JHmuSDX)<br>
+Репозиторий автора курса: [ссылка](https://github.com/sskva/phrase-service-public) / Course Author Repository: [link](https://github.com/sskva/phrase-service-public)
 
 # Модель данных
 
